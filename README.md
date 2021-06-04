@@ -21,9 +21,9 @@ cerv_seurat <- readRDS(file = "backup/cerv_small_seurat.rds")  # Seurat object
 Below are stopgap installations. See [Chapter 1](hogehoge.html) for all the requirements.
 
 ```{r, eval = FALSE}
-library(tidyverse)       					# For efficient handling of data.frame
-library(org.Hs.eg.db)    					# For using human genome annotation package
-library(Seurat)          					# For using Seurat
+library(tidyverse)                # For efficient handling of data.frame
+library(org.Hs.eg.db)             # For using human genome annotation package
+library(Seurat)                   # For using Seurat
 source("R/function_general.R")		# ASURAT's function
 ```
 
