@@ -4,13 +4,13 @@ ASURAT is a single-cell RNA sequencing (scRNA-seq) data analysis pipeline, devel
 
 Introduction, documentation, and tutorial can be found at
 
-hogehoe.html
+https://keita-iida.github.io/ASURAT/
 
 
 
 ## Quick start inputting a Seurat object
 
-Although the above [URL](hogehoge.html) does not assume Seurat-based analyses, it is beneficial to begin with a Seurat object `obj` including `obj@assays[["RNA"]]@counts` data.
+Although the above [URL](https://keita-iida.github.io/ASURAT/) does not assume Seurat-based analyses, it is beneficial to begin with a Seurat object `obj` including `obj@assays[["RNA"]]@counts` data.
 
 Load a Seurat object (below is an example).
 
@@ -18,7 +18,7 @@ Load a Seurat object (below is an example).
 cerv_seurat <- readRDS(file = "backup/cerv_small_seurat.rds")  # Seurat object
 ```
 
-Below are stopgap installations. See [Chapter 1](hogehoge.html) for all the requirements.
+Below are stopgap installations. See [Chapter 1](https://keita-iida.github.io/ASURAT/) for all the requirements.
 
 ```{r, eval = FALSE}
 library(tidyverse)                # For efficient handling of data.frame
@@ -99,12 +99,12 @@ saveRDS(cerv_cor, file = "backup/09_006_cerv_correlation.rds")
 
 ### ASURAT using several databases
 
-Go to [Chapter 8](hogehoge.html) for analyses using Disease Ontology database.
+Go to [Chapter 8](https://keita-iida.github.io/ASURAT/asurat-using-disease-ontology-database.html) for analyses using Disease Ontology database.
 
-Go to [Chapter 9](hogehoge.html) for analyses using Cell Ontology database.
+Go to [Chapter 9](https://keita-iida.github.io/ASURAT/asurat-using-cell-ontology-database-optional.html) for analyses using Cell Ontology database.
 
-Go to [Chapter 10](hogehoge.html) for analyses using Gene Ontology database.
+Go to [Chapter 10](https://keita-iida.github.io/ASURAT/asurat-using-gene-ontology-database-optional.html) for analyses using Gene Ontology database.
 
-Go to [Chapter 11](hogehoge.html) for analyses using Kyoto Encyclopedia of Genes and Genomes (KEGG)  database.
+Go to [Chapter 11](https://keita-iida.github.io/ASURAT/asurat-using-kegg-optional.html) for analyses using Kyoto Encyclopedia of Genes and Genomes (KEGG)  database.
 
-Go to [Chapter 12](hogehoge.html) for analyses using Reactome database.
+Go to [Chapter 12](https://keita-iida.github.io/ASURAT/asurat-using-reactome-optional.html) for analyses using Reactome database.
