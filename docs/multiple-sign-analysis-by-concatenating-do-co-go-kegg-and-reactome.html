@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 13 Multiple sign analysis by concatenating DO, CO, GO, KEGG, and Reactome | Introduction to ASURAT (version 0.0.0.9000)</title>
+  <meta name="description" content="This is a developmental version of ASURAT." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 13 Multiple sign analysis by concatenating DO, CO, GO, KEGG, and Reactome | Introduction to ASURAT (version 0.0.0.9000)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This is a developmental version of ASURAT." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 13 Multiple sign analysis by concatenating DO, CO, GO, KEGG, and Reactome | Introduction to ASURAT (version 0.0.0.9000)" />
+  
+  <meta name="twitter:description" content="This is a developmental version of ASURAT." />
+  
+
+<meta name="author" content="Keita Iida" />
+
+
+<meta name="date" content="2021-06-04" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="asurat-using-reactome-optional.html"/>
+<link rel="next" href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Minimal Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Overview</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#license-and-description"><i class="fa fa-check"></i><b>1.1</b> License and description</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#computational-environment"><i class="fa fa-check"></i><b>1.2</b> Computational environment</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i><b>1.3</b> Installation</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="dataset.html"><a href="dataset.html"><i class="fa fa-check"></i><b>2</b> Preparing data sets</a><ul>
+<li class="chapter" data-level="2.1" data-path="dataset.html"><a href="dataset.html#case-i-input-gene-expression-matrix-with-row-and-column-names"><i class="fa fa-check"></i><b>2.1</b> Case I: input gene expression matrix with row and column names</a></li>
+<li class="chapter" data-level="2.2" data-path="dataset.html"><a href="dataset.html#case-ii-input-10x-data"><i class="fa fa-check"></i><b>2.2</b> Case II: input 10x data</a></li>
+<li class="chapter" data-level="2.3" data-path="dataset.html"><a href="dataset.html#case-iii-input-10x-pbmc-data"><i class="fa fa-check"></i><b>2.3</b> Case III: input 10x PBMC data</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="dataqc.html"><a href="dataqc.html"><i class="fa fa-check"></i><b>3</b> Data quality control (QC)</a><ul>
+<li class="chapter" data-level="3.1" data-path="dataqc.html"><a href="dataqc.html#quick-qc"><i class="fa fa-check"></i><b>3.1</b> Quick QC</a></li>
+<li class="chapter" data-level="3.2" data-path="dataqc.html"><a href="dataqc.html#sample-qc"><i class="fa fa-check"></i><b>3.2</b> Sample QC</a></li>
+<li class="chapter" data-level="3.3" data-path="dataqc.html"><a href="dataqc.html#variable-qc"><i class="fa fa-check"></i><b>3.3</b> Variable QC</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="normalization.html"><a href="normalization.html"><i class="fa fa-check"></i><b>4</b> Normalizing and centering data</a></li>
+<li class="chapter" data-level="5" data-path="computcorr.html"><a href="computcorr.html"><i class="fa fa-check"></i><b>5</b> Computing correlations among genes</a></li>
+<li class="chapter" data-level="6" data-path="markergenes.html"><a href="markergenes.html"><i class="fa fa-check"></i><b>6</b> Checking expression profiles of marker genes</a></li>
+<li class="chapter" data-level="7" data-path="collectdb.html"><a href="collectdb.html"><i class="fa fa-check"></i><b>7</b> Collecting databases (optional)</a><ul>
+<li class="chapter" data-level="7.1" data-path="collectdb.html"><a href="collectdb.html#disease-ontology-db"><i class="fa fa-check"></i><b>7.1</b> Disease Ontology DB</a></li>
+<li class="chapter" data-level="7.2" data-path="collectdb.html"><a href="collectdb.html#cell-ontology-db"><i class="fa fa-check"></i><b>7.2</b> Cell Ontology DB</a></li>
+<li class="chapter" data-level="7.3" data-path="collectdb.html"><a href="collectdb.html#gene-ontology-db"><i class="fa fa-check"></i><b>7.3</b> Gene Ontology DB</a></li>
+<li class="chapter" data-level="7.4" data-path="collectdb.html"><a href="collectdb.html#kegg"><i class="fa fa-check"></i><b>7.4</b> KEGG</a></li>
+<li class="chapter" data-level="7.5" data-path="collectdb.html"><a href="collectdb.html#reactome"><i class="fa fa-check"></i><b>7.5</b> Reactome</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="asurat-using-disease-ontology-database.html"><a href="asurat-using-disease-ontology-database.html"><i class="fa fa-check"></i><b>8</b> ASURAT using Disease Ontology database</a><ul>
+<li class="chapter" data-level="8.1" data-path="asurat-using-disease-ontology-database.html"><a href="asurat-using-disease-ontology-database.html#creating-sign-by-sample-matrices"><i class="fa fa-check"></i><b>8.1</b> Creating sign-by-sample matrices</a></li>
+<li class="chapter" data-level="8.2" data-path="asurat-using-disease-ontology-database.html"><a href="asurat-using-disease-ontology-database.html#dimension-reduction"><i class="fa fa-check"></i><b>8.2</b> Dimension reduction</a></li>
+<li class="chapter" data-level="8.3" data-path="asurat-using-disease-ontology-database.html"><a href="asurat-using-disease-ontology-database.html#sample-clustering"><i class="fa fa-check"></i><b>8.3</b> Sample clustering</a></li>
+<li class="chapter" data-level="8.4" data-path="asurat-using-disease-ontology-database.html"><a href="asurat-using-disease-ontology-database.html#visualizing"><i class="fa fa-check"></i><b>8.4</b> Visualizing</a></li>
+<li class="chapter" data-level="8.5" data-path="asurat-using-disease-ontology-database.html"><a href="asurat-using-disease-ontology-database.html#significant-signs"><i class="fa fa-check"></i><b>8.5</b> Significant signs</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="asurat-using-cell-ontology-database-optional.html"><a href="asurat-using-cell-ontology-database-optional.html"><i class="fa fa-check"></i><b>9</b> ASURAT using Cell Ontology database (optional)</a><ul>
+<li class="chapter" data-level="9.1" data-path="asurat-using-cell-ontology-database-optional.html"><a href="asurat-using-cell-ontology-database-optional.html#creating-sign-by-sample-matrices-1"><i class="fa fa-check"></i><b>9.1</b> Creating sign-by-sample matrices</a></li>
+<li class="chapter" data-level="9.2" data-path="asurat-using-cell-ontology-database-optional.html"><a href="asurat-using-cell-ontology-database-optional.html#dimension-reduction-1"><i class="fa fa-check"></i><b>9.2</b> Dimension reduction</a></li>
+<li class="chapter" data-level="9.3" data-path="asurat-using-cell-ontology-database-optional.html"><a href="asurat-using-cell-ontology-database-optional.html#sample-clustering-1"><i class="fa fa-check"></i><b>9.3</b> Sample clustering</a></li>
+<li class="chapter" data-level="9.4" data-path="asurat-using-cell-ontology-database-optional.html"><a href="asurat-using-cell-ontology-database-optional.html#visualizing-1"><i class="fa fa-check"></i><b>9.4</b> Visualizing</a></li>
+<li class="chapter" data-level="9.5" data-path="asurat-using-cell-ontology-database-optional.html"><a href="asurat-using-cell-ontology-database-optional.html#significant-signs-1"><i class="fa fa-check"></i><b>9.5</b> Significant signs</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="asurat-using-gene-ontology-database-optional.html"><a href="asurat-using-gene-ontology-database-optional.html"><i class="fa fa-check"></i><b>10</b> ASURAT using Gene Ontology database (optional)</a><ul>
+<li class="chapter" data-level="10.1" data-path="asurat-using-gene-ontology-database-optional.html"><a href="asurat-using-gene-ontology-database-optional.html#creating-sign-by-sample-matrices-2"><i class="fa fa-check"></i><b>10.1</b> Creating sign-by-sample matrices</a></li>
+<li class="chapter" data-level="10.2" data-path="asurat-using-gene-ontology-database-optional.html"><a href="asurat-using-gene-ontology-database-optional.html#dimension-reduction-2"><i class="fa fa-check"></i><b>10.2</b> Dimension reduction</a></li>
+<li class="chapter" data-level="10.3" data-path="asurat-using-gene-ontology-database-optional.html"><a href="asurat-using-gene-ontology-database-optional.html#sample-clustering-2"><i class="fa fa-check"></i><b>10.3</b> Sample clustering</a></li>
+<li class="chapter" data-level="10.4" data-path="asurat-using-gene-ontology-database-optional.html"><a href="asurat-using-gene-ontology-database-optional.html#visualizing-2"><i class="fa fa-check"></i><b>10.4</b> Visualizing</a></li>
+<li class="chapter" data-level="10.5" data-path="asurat-using-gene-ontology-database-optional.html"><a href="asurat-using-gene-ontology-database-optional.html#significant-signs-2"><i class="fa fa-check"></i><b>10.5</b> Significant signs</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="asurat-using-kegg-optional.html"><a href="asurat-using-kegg-optional.html"><i class="fa fa-check"></i><b>11</b> ASURAT using KEGG (optional)</a><ul>
+<li class="chapter" data-level="11.1" data-path="asurat-using-kegg-optional.html"><a href="asurat-using-kegg-optional.html#creating-sign-by-sample-matrices-3"><i class="fa fa-check"></i><b>11.1</b> Creating sign-by-sample matrices</a></li>
+<li class="chapter" data-level="11.2" data-path="asurat-using-kegg-optional.html"><a href="asurat-using-kegg-optional.html#dimension-reduction-3"><i class="fa fa-check"></i><b>11.2</b> Dimension reduction</a></li>
+<li class="chapter" data-level="11.3" data-path="asurat-using-kegg-optional.html"><a href="asurat-using-kegg-optional.html#sample-clustering-3"><i class="fa fa-check"></i><b>11.3</b> Sample clustering</a></li>
+<li class="chapter" data-level="11.4" data-path="asurat-using-kegg-optional.html"><a href="asurat-using-kegg-optional.html#visualizing-3"><i class="fa fa-check"></i><b>11.4</b> Visualizing</a></li>
+<li class="chapter" data-level="11.5" data-path="asurat-using-kegg-optional.html"><a href="asurat-using-kegg-optional.html#significant-signs-3"><i class="fa fa-check"></i><b>11.5</b> Significant signs</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="asurat-using-reactome-optional.html"><a href="asurat-using-reactome-optional.html"><i class="fa fa-check"></i><b>12</b> ASURAT using Reactome (optional)</a><ul>
+<li class="chapter" data-level="12.1" data-path="asurat-using-reactome-optional.html"><a href="asurat-using-reactome-optional.html#creating-sign-by-sample-matrices-4"><i class="fa fa-check"></i><b>12.1</b> Creating sign-by-sample matrices</a></li>
+<li class="chapter" data-level="12.2" data-path="asurat-using-reactome-optional.html"><a href="asurat-using-reactome-optional.html#dimension-reduction-4"><i class="fa fa-check"></i><b>12.2</b> Dimension reduction</a></li>
+<li class="chapter" data-level="12.3" data-path="asurat-using-reactome-optional.html"><a href="asurat-using-reactome-optional.html#sample-clustering-4"><i class="fa fa-check"></i><b>12.3</b> Sample clustering</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html"><i class="fa fa-check"></i><b>13</b> Multiple sign analysis by concatenating DO, CO, GO, KEGG, and Reactome</a></li>
+<li class="chapter" data-level="14" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><i class="fa fa-check"></i><b>14</b> Appendix A: comparing performances of ASURAT and existing methods</a><ul>
+<li class="chapter" data-level="14.1" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#installation-1"><i class="fa fa-check"></i><b>14.1</b> Installation</a></li>
+<li class="chapter" data-level="14.2" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#removing-the-outlier-cells-detected-by-asurat"><i class="fa fa-check"></i><b>14.2</b> Removing the outlier cells detected by ASURAT</a></li>
+<li class="chapter" data-level="14.3" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#assessing-clustering-performances"><i class="fa fa-check"></i><b>14.3</b> Assessing clustering performances</a><ul>
+<li class="chapter" data-level="14.3.1" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#seurat"><i class="fa fa-check"></i><b>14.3.1</b> Seurat</a></li>
+<li class="chapter" data-level="14.3.2" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#monocle-3"><i class="fa fa-check"></i><b>14.3.2</b> Monocle 3</a></li>
+<li class="chapter" data-level="14.3.3" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#sc3"><i class="fa fa-check"></i><b>14.3.3</b> SC3</a></li>
+<li class="chapter" data-level="14.3.4" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#principal-component-analysis-pca"><i class="fa fa-check"></i><b>14.3.4</b> Principal component analysis (PCA)</a></li>
+<li class="chapter" data-level="14.3.5" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#asurat"><i class="fa fa-check"></i><b>14.3.5</b> ASURAT</a></li>
+<li class="chapter" data-level="14.3.6" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#comparing-clustering-validity-indices"><i class="fa fa-check"></i><b>14.3.6</b> Comparing clustering validity indices</a></li>
+</ul></li>
+<li class="chapter" data-level="14.4" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#cell-type-inference-in-pbmc_4000-and-pbmc_6000"><i class="fa fa-check"></i><b>14.4</b> Cell-type inference in <code>pbmc_4000</code> and <code>pbmc_6000</code></a><ul>
+<li class="chapter" data-level="14.4.1" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#seurat-1"><i class="fa fa-check"></i><b>14.4.1</b> Seurat</a></li>
+<li class="chapter" data-level="14.4.2" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#monocle-3-1"><i class="fa fa-check"></i><b>14.4.2</b> Monocle 3</a></li>
+<li class="chapter" data-level="14.4.3" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#sc3-1"><i class="fa fa-check"></i><b>14.4.3</b> SC3</a></li>
+<li class="chapter" data-level="14.4.4" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#asurat-1"><i class="fa fa-check"></i><b>14.4.4</b> ASURAT</a></li>
+</ul></li>
+<li class="chapter" data-level="14.5" data-path="appendix-a-comparing-performances-of-asurat-and-existing-methods.html"><a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html#identifying-cell-types-in-pbmc_4000-and-pbmc_6000"><i class="fa fa-check"></i><b>14.5</b> Identifying cell types in <code>pbmc_4000</code> and <code>pbmc_6000</code></a></li>
+</ul></li>
+<li class="chapter" data-level="15" data-path="appendix-b-automatically-tuning-the-asurats-parameters.html"><a href="appendix-b-automatically-tuning-the-asurats-parameters.html"><i class="fa fa-check"></i><b>15</b> Appendix B: automatically tuning the ASURAT’s parameters</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to ASURAT (version 0.0.0.9000)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome" class="section level1">
+<h1><span class="header-section-number">Chapter 13</span> Multiple sign analysis by concatenating DO, CO, GO, KEGG, and Reactome</h1>
+<p>In this section, we concatenate all the SSMs by using ASURAT’s functions.</p>
+<p>Load the data.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-1"></a><span class="kw">rm</span>(<span class="dt">list =</span> <span class="kw">ls</span>())</span>
+<span id="cb1-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-2"></a><span class="kw">source</span>(<span class="st">&quot;R/plot.R&quot;</span>)</span>
+<span id="cb1-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-3"></a><span class="kw">source</span>(<span class="st">&quot;R/function_sign.R&quot;</span>)</span>
+<span id="cb1-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-4"></a>day1_norm_DO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/01_104_day1_norm_DES_DO.rds&quot;</span>)</span>
+<span id="cb1-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-5"></a>day7_hypo_DO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/02_104_day7_hypo_DES_DO.rds&quot;</span>)</span>
+<span id="cb1-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-6"></a>sc68_vehi_DO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/03_104_sc68_vehi_DES_DO.rds&quot;</span>)</span>
+<span id="cb1-7"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-7"></a>sc68_cisp_DO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/04_104_sc68_cisp_DES_DO.rds&quot;</span>)</span>
+<span id="cb1-8"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-8"></a>pbmc_<span class="dv">4000</span>_CO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/05_104_pbmc_4000_DES_CO.rds&quot;</span>)</span>
+<span id="cb1-9"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-9"></a>pbmc_<span class="dv">6000</span>_CO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/06_104_pbmc_6000_DES_CO.rds&quot;</span>)</span>
+<span id="cb1-10"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-10"></a></span>
+<span id="cb1-11"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-11"></a>day1_norm_GO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/01_204_day1_norm_DES_GO.rds&quot;</span>)</span>
+<span id="cb1-12"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-12"></a>day7_hypo_GO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/02_204_day7_hypo_DES_GO.rds&quot;</span>)</span>
+<span id="cb1-13"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-13"></a>sc68_vehi_GO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/03_204_sc68_vehi_DES_GO.rds&quot;</span>)</span>
+<span id="cb1-14"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-14"></a>sc68_cisp_GO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/04_204_sc68_cisp_DES_GO.rds&quot;</span>)</span>
+<span id="cb1-15"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-15"></a>pbmc_<span class="dv">4000</span>_GO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/05_204_pbmc_4000_DES_GO.rds&quot;</span>)</span>
+<span id="cb1-16"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb1-16"></a>pbmc_<span class="dv">6000</span>_GO &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/06_204_pbmc_6000_DES_GO.rds&quot;</span>)</span></code></pre></div>
+<p>The following function <code>concatenate_obj_sign()</code> concatenates <code>obj2</code> at the end
+of <code>obj1</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-1"></a>day1_norm &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> day1_norm_DO, <span class="dt">obj2 =</span> day1_norm_GO)</span>
+<span id="cb2-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-2"></a>day7_hypo &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> day7_hypo_DO, <span class="dt">obj2 =</span> day7_hypo_GO)</span>
+<span id="cb2-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-3"></a>sc68_vehi &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> sc68_vehi_DO, <span class="dt">obj2 =</span> sc68_vehi_GO)</span>
+<span id="cb2-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-4"></a>sc68_cisp &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> sc68_cisp_DO, <span class="dt">obj2 =</span> sc68_cisp_GO)</span>
+<span id="cb2-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-5"></a>pbmc_<span class="dv">4000</span> &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> pbmc_<span class="dv">4000</span>_CO, <span class="dt">obj2 =</span> pbmc_<span class="dv">4000</span>_GO)</span>
+<span id="cb2-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-6"></a>pbmc_<span class="dv">6000</span> &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> pbmc_<span class="dv">6000</span>_CO, <span class="dt">obj2 =</span> pbmc_<span class="dv">6000</span>_GO)</span>
+<span id="cb2-7"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-7"></a></span>
+<span id="cb2-8"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-8"></a><span class="kw">rm</span>(day1_norm_DO, day7_hypo_DO, sc68_vehi_DO, sc68_cisp_DO,</span>
+<span id="cb2-9"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-9"></a>   pbmc_<span class="dv">4000</span>_CO, pbmc_<span class="dv">6000</span>_CO,</span>
+<span id="cb2-10"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-10"></a>   day1_norm_GO, day7_hypo_GO, sc68_vehi_GO, sc68_cisp_GO,</span>
+<span id="cb2-11"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-11"></a>   pbmc_<span class="dv">4000</span>_GO, pbmc_<span class="dv">6000</span>_GO)</span>
+<span id="cb2-12"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-12"></a></span>
+<span id="cb2-13"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-13"></a>day1_norm_KEGG &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/01_302_day1_norm_reduction_KEGG.rds&quot;</span>)</span>
+<span id="cb2-14"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-14"></a>day7_hypo_KEGG &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/02_302_day7_hypo_reduction_KEGG.rds&quot;</span>)</span>
+<span id="cb2-15"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-15"></a>sc68_vehi_KEGG &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/03_302_sc68_vehi_reduction_KEGG.rds&quot;</span>)</span>
+<span id="cb2-16"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-16"></a>sc68_cisp_KEGG &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/04_302_sc68_cisp_reduction_KEGG.rds&quot;</span>)</span>
+<span id="cb2-17"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-17"></a>pbmc_<span class="dv">4000</span>_KEGG &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/05_304_pbmc_4000_DES_KEGG.rds&quot;</span>)</span>
+<span id="cb2-18"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-18"></a>pbmc_<span class="dv">6000</span>_KEGG &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/06_304_pbmc_6000_DES_KEGG.rds&quot;</span>)</span>
+<span id="cb2-19"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-19"></a></span>
+<span id="cb2-20"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-20"></a>day1_norm &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> day1_norm, <span class="dt">obj2 =</span> day1_norm_KEGG)</span>
+<span id="cb2-21"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-21"></a>day7_hypo &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> day7_hypo, <span class="dt">obj2 =</span> day7_hypo_KEGG)</span>
+<span id="cb2-22"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-22"></a>sc68_vehi &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> sc68_vehi, <span class="dt">obj2 =</span> sc68_vehi_KEGG)</span>
+<span id="cb2-23"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-23"></a>sc68_cisp &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> sc68_cisp, <span class="dt">obj2 =</span> sc68_cisp_KEGG)</span>
+<span id="cb2-24"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-24"></a>pbmc_<span class="dv">4000</span> &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> pbmc_<span class="dv">4000</span>, <span class="dt">obj2 =</span> pbmc_<span class="dv">4000</span>_KEGG)</span>
+<span id="cb2-25"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-25"></a>pbmc_<span class="dv">6000</span> &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> pbmc_<span class="dv">6000</span>, <span class="dt">obj2 =</span> pbmc_<span class="dv">6000</span>_KEGG)</span>
+<span id="cb2-26"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-26"></a></span>
+<span id="cb2-27"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-27"></a><span class="kw">rm</span>(day1_norm_KEGG, day7_hypo_KEGG, sc68_vehi_KEGG, sc68_cisp_KEGG,</span>
+<span id="cb2-28"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-28"></a>   pbmc_<span class="dv">4000</span>_KEGG, pbmc_<span class="dv">6000</span>_KEGG)</span>
+<span id="cb2-29"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-29"></a></span>
+<span id="cb2-30"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-30"></a>day1_norm_Reactome &lt;-</span>
+<span id="cb2-31"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-31"></a><span class="st">  </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/01_402_day1_norm_reduction_Reactome.rds&quot;</span>)</span>
+<span id="cb2-32"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-32"></a>day7_hypo_Reactome &lt;-</span>
+<span id="cb2-33"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-33"></a><span class="st">  </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/02_402_day7_hypo_reduction_Reactome.rds&quot;</span>)</span>
+<span id="cb2-34"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-34"></a>sc68_vehi_Reactome &lt;-</span>
+<span id="cb2-35"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-35"></a><span class="st">  </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/03_402_sc68_vehi_reduction_Reactome.rds&quot;</span>)</span>
+<span id="cb2-36"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-36"></a>sc68_cisp_Reactome &lt;-</span>
+<span id="cb2-37"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-37"></a><span class="st">  </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/04_402_sc68_cisp_reduction_Reactome.rds&quot;</span>)</span>
+<span id="cb2-38"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-38"></a>pbmc_<span class="dv">4000</span>_Reactome &lt;-</span>
+<span id="cb2-39"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-39"></a><span class="st">  </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/05_402_pbmc_4000_reduction_Reactome.rds&quot;</span>)</span>
+<span id="cb2-40"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-40"></a>pbmc_<span class="dv">6000</span>_Reactome &lt;-</span>
+<span id="cb2-41"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-41"></a><span class="st">  </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/06_402_pbmc_6000_reduction_Reactome.rds&quot;</span>)</span>
+<span id="cb2-42"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-42"></a></span>
+<span id="cb2-43"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-43"></a>day1_norm &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> day1_norm, <span class="dt">obj2 =</span> day1_norm_Reactome)</span>
+<span id="cb2-44"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-44"></a>day7_hypo &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> day7_hypo, <span class="dt">obj2 =</span> day7_hypo_Reactome)</span>
+<span id="cb2-45"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-45"></a>sc68_vehi &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> sc68_vehi, <span class="dt">obj2 =</span> sc68_vehi_Reactome)</span>
+<span id="cb2-46"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-46"></a>sc68_cisp &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> sc68_cisp, <span class="dt">obj2 =</span> sc68_cisp_Reactome)</span>
+<span id="cb2-47"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-47"></a>pbmc_<span class="dv">4000</span> &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> pbmc_<span class="dv">4000</span>, <span class="dt">obj2 =</span> pbmc_<span class="dv">4000</span>_Reactome)</span>
+<span id="cb2-48"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-48"></a>pbmc_<span class="dv">6000</span> &lt;-<span class="st"> </span><span class="kw">concatenate_obj_sign</span>(<span class="dt">obj1 =</span> pbmc_<span class="dv">6000</span>, <span class="dt">obj2 =</span> pbmc_<span class="dv">6000</span>_Reactome)</span>
+<span id="cb2-49"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-49"></a></span>
+<span id="cb2-50"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-50"></a><span class="kw">rm</span>(day1_norm_Reactome, day7_hypo_Reactome,</span>
+<span id="cb2-51"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-51"></a>   sc68_vehi_Reactome, sc68_cisp_Reactome,</span>
+<span id="cb2-52"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb2-52"></a>   pbmc_<span class="dv">4000</span>_Reactome, pbmc_<span class="dv">6000</span>_Reactome)</span></code></pre></div>
+<p>The following function <code>plot_multiHeatmaps_SignxSamp()</code> vertically concatenates
+two or more heat maps.
+The arguments are <code>obj</code>, <code>data_types</code> (vector of data types, where the first
+element is used for the sample clustering), <code>categories</code> (vector of categories,
+where the first element is used for the sample clustering), <code>algo_names</code>
+(vector of the name of algorithm used for the sample classification: in the
+current version, one of <code>NULL</code> (not <code>"NULL"</code> but <code>NULL</code>), <code>"pam"</code>,
+<code>"hclustCutree"</code>, <code>"seuratFindClusters"</code>, and <code>"merlot"</code>), <code>show_classes</code>
+(vector of <code>TRUE</code> or <code>FALSE</code>: if <code>TRUE</code>, the classification is shown), <code>split</code>
+(if <code>TRUE</code>, the heat map is split by the first element of <code>data_type</code>), <code>method</code>
+(agglomeration method to be used, e.g., <code>complete</code>, <code>ward.D2</code>, <code>average</code>, etc.),
+<code>show_nReads</code> (if <code>TRUE</code>, number of reads is shown), <code>title</code>, <code>names</code>
+(vector of names of the color bar), <code>show_rownames_sign</code> (if <code>TRUE</code>, the name of
+sign is shown), <code>show_rownames_label</code> (if <code>TRUE</code>, the name of label is shown),
+<code>show_rownames_nReads</code> (if <code>TRUE</code>, the name of number of reads is shown), and
+<code>default_colors</code> (vector of <code>TRUE</code> or <code>FALSE</code> for each classification:
+if <code>TRUE</code>, the default color of ggplot is used, otherwise rainbow).</p>
+<p><strong>Tips:</strong>
+If you forget the methods for the clustering, see <code>obj[["sample"]]</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb3-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-2"></a><span class="co"># For `day1_norm`</span></span>
+<span id="cb3-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-3"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb3-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-4"></a>filename &lt;-<span class="st"> &quot;figures/figure_01_0500.png&quot;</span></span>
+<span id="cb3-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-5"></a><span class="kw">png</span>(<span class="dt">file =</span> filename, <span class="dt">height =</span> <span class="dv">2500</span>, <span class="dt">width =</span> <span class="dv">1500</span>, <span class="dt">res =</span> <span class="dv">300</span>)</span>
+<span id="cb3-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-6"></a><span class="kw">plot_MultiHeatmaps_SignxSamp</span>(</span>
+<span id="cb3-7"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-7"></a>  <span class="dt">obj =</span> day1_norm,</span>
+<span id="cb3-8"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-8"></a>  <span class="dt">data_types =</span> <span class="kw">c</span>(<span class="st">&quot;DO&quot;</span>, <span class="st">&quot;GO&quot;</span>, <span class="st">&quot;KEGG&quot;</span>),</span>
+<span id="cb3-9"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-9"></a>  <span class="dt">categories =</span> <span class="kw">c</span>(<span class="st">&quot;disease&quot;</span>, <span class="st">&quot;BP&quot;</span>, <span class="st">&quot;pathway&quot;</span>),</span>
+<span id="cb3-10"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-10"></a>  <span class="dt">algo_names =</span> <span class="kw">c</span>(<span class="st">&quot;seuratFindClusters&quot;</span>, <span class="st">&quot;seuratFindClusters&quot;</span>, <span class="ot">NULL</span>),</span>
+<span id="cb3-11"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-11"></a>  <span class="dt">show_classes =</span> <span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>),</span>
+<span id="cb3-12"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-12"></a>  <span class="dt">split =</span> <span class="ot">TRUE</span>, <span class="dt">method =</span> <span class="st">&quot;ward.D2&quot;</span>, <span class="dt">show_nReads =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb3-13"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-13"></a>  <span class="dt">title =</span> <span class="st">&quot;day1_norm&quot;</span>,</span>
+<span id="cb3-14"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-14"></a>  <span class="dt">names =</span> <span class="kw">c</span>(<span class="st">&quot;DO: disease&quot;</span>, <span class="st">&quot;GO: BP&quot;</span>, <span class="st">&quot;KEGG: pathway&quot;</span>),</span>
+<span id="cb3-15"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-15"></a>  <span class="dt">show_rownames_sign =</span> <span class="ot">FALSE</span>, <span class="dt">show_rownames_label =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb3-16"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-16"></a>  <span class="dt">show_rownames_nReads =</span> <span class="ot">FALSE</span>, <span class="dt">default_colors =</span> <span class="kw">c</span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>, <span class="ot">FALSE</span>))</span>
+<span id="cb3-17"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb3-17"></a><span class="kw">dev.off</span>()</span></code></pre></div>
+<p><img src="figures/figure_01_0500.png" width="230px">
+<img src="figures/figure_02_0500.png" width="230px">
+<img src="figures/figure_03_0500.png" width="230px">
+<img src="figures/figure_04_0500.png" width="230px">
+<img src="figures/figure_05_0500.png" width="230px">
+<img src="figures/figure_06_0500.png" width="230px"></p>
+<p>The following function <code>plot_MultiBargraphs_sign()</code> shows the population sizes
+by two-variable bar graphs.
+The arguments are <code>obj</code>, <code>data_type_1</code> (for the data type in x-axis),
+<code>category_1</code> (for x-axis), <code>algo_name_1</code> (for x-axix), <code>data_type_2</code> (for the
+data type in y-axis), <code>category_2</code> (for y-axis), <code>algo_name_2</code> (for y-axis),
+<code>title</code>, <code>title_size</code>, <code>cbar_title</code> (label of the color bar), <code>xlabel</code>,
+<code>ylabel</code>, <code>ymax</code>, and <code>default_color</code> (if <code>TRUE</code>, the default color of ggplot
+is used, otherwise rainbow).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb4-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-2"></a><span class="co"># For `day1_norm`</span></span>
+<span id="cb4-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-3"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb4-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-4"></a>p &lt;-<span class="st"> </span><span class="kw">plot_MultiBargraphs_sign</span>(</span>
+<span id="cb4-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-5"></a>  <span class="dt">obj =</span> day1_norm, <span class="dt">data_type_1 =</span> <span class="st">&quot;DO&quot;</span>, <span class="dt">category_1 =</span> <span class="st">&quot;disease&quot;</span>,</span>
+<span id="cb4-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-6"></a>  <span class="dt">algo_name_1 =</span> <span class="st">&quot;seuratFindClusters&quot;</span>,</span>
+<span id="cb4-7"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-7"></a>  <span class="dt">data_type_2 =</span> <span class="st">&quot;GO&quot;</span>, <span class="dt">category_2 =</span> <span class="st">&quot;BP&quot;</span>,</span>
+<span id="cb4-8"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-8"></a>  <span class="dt">algo_name_2 =</span> <span class="st">&quot;seuratFindClusters&quot;</span>,</span>
+<span id="cb4-9"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-9"></a>  <span class="dt">title =</span> <span class="st">&quot;day1_norm&quot;</span>, <span class="dt">title_size =</span> <span class="dv">18</span>, <span class="dt">cbar_title =</span> <span class="st">&quot;Label</span><span class="ch">\n</span><span class="st">(GO: BP)&quot;</span>,</span>
+<span id="cb4-10"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-10"></a>  <span class="dt">xlabel =</span> <span class="st">&quot;Label (DO: disease)&quot;</span>, <span class="dt">ylabel =</span> <span class="st">&quot;Number of samples&quot;</span>, <span class="dt">ymax =</span> <span class="dv">2000</span>,</span>
+<span id="cb4-11"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-11"></a>  <span class="dt">default_color =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb4-12"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-12"></a>filename &lt;-<span class="st"> &quot;figures/figure_01_0501.png&quot;</span></span>
+<span id="cb4-13"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb4-13"></a><span class="kw">ggsave</span>(<span class="dt">file =</span> filename, <span class="dt">plot =</span> p, <span class="dt">dpi =</span> <span class="dv">300</span>, <span class="dt">width =</span> <span class="fl">5.5</span>, <span class="dt">height =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="figures/figure_01_0501.png" width="230px">
+<img src="figures/figure_02_0501.png" width="230px">
+<img src="figures/figure_03_0501.png" width="230px">
+<img src="figures/figure_04_0501.png" width="230px"></p>
+<p><img src="figures/figure_05_0501.png" width="230px">
+<img src="figures/figure_05_0502.png" width="230px">
+<img src="figures/figure_06_0501.png" width="230px">
+<img src="figures/figure_06_0502.png" width="230px"></p>
+<p>The function <code>plot_tsne_signScore()</code>, <code>plot_umap_signScore()</code>, and
+<code>plot_dmap_signScore()</code> show the sign score of a given sign on the t-SNE,
+UMAP, and diffusion map spaces, respectively.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb5-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-2"></a><span class="co"># For `sc68_vehi`</span></span>
+<span id="cb5-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-3"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb5-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-4"></a>p &lt;-<span class="st"> </span><span class="kw">plot_tsne_signScore</span>(</span>
+<span id="cb5-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-5"></a>  <span class="dt">obj =</span> sc68_vehi, <span class="dt">sign_name =</span> <span class="st">&quot;DOID:5409_S&quot;</span>,</span>
+<span id="cb5-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-6"></a>  <span class="dt">data_type_for_tsne =</span> <span class="st">&quot;GO&quot;</span>, <span class="dt">category_for_tsne =</span> <span class="st">&quot;BP&quot;</span>,</span>
+<span id="cb5-7"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-7"></a>  <span class="dt">data_type_for_expr =</span> <span class="st">&quot;DO&quot;</span>, <span class="dt">category_for_expr =</span> <span class="st">&quot;disease&quot;</span>,</span>
+<span id="cb5-8"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-8"></a>  <span class="dt">theta =</span> <span class="ot">NULL</span>, <span class="dt">phi =</span> <span class="ot">NULL</span>,</span>
+<span id="cb5-9"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-9"></a>  <span class="dt">title =</span> <span class="st">&quot;DOID:5409_S</span><span class="ch">\n</span><span class="st">Lung small cell carcinoma</span><span class="ch">\n</span><span class="st">(ASCL1/GRP/..)&quot;</span>,</span>
+<span id="cb5-10"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-10"></a>  <span class="dt">title_size =</span> <span class="dv">16</span>, <span class="dt">label_name =</span> <span class="st">&quot;Sign score&quot;</span>,</span>
+<span id="cb5-11"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-11"></a>  <span class="dt">xlabel =</span> <span class="st">&quot;tSNE_1 (GO: BP)&quot;</span>, <span class="dt">ylabel =</span> <span class="st">&quot;tSNE_2 (GO: BP)&quot;</span>, <span class="dt">zlabel =</span> <span class="ot">NULL</span>)</span>
+<span id="cb5-12"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-12"></a>filename &lt;-<span class="st"> &quot;figures/figure_03_0505.png&quot;</span></span>
+<span id="cb5-13"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb5-13"></a><span class="kw">ggsave</span>(<span class="dt">file =</span> filename, <span class="dt">plot =</span> p, <span class="dt">dpi =</span> <span class="dv">300</span>, <span class="dt">width =</span> <span class="fl">5.6</span>, <span class="dt">height =</span> <span class="fl">4.4</span>)</span></code></pre></div>
+<p><img src="figures/figure_03_0505.png" width="230px">
+<img src="figures/figure_03_0506.png" width="230px"></p>
+<p>The following function <code>plot_violin_signScore()</code> shows the distribution of
+expression levels of a given sign across subpopulations by violin plots.
+The arguments are <code>obj</code>, <code>sign_name</code>, <code>data_type_for_label</code> (<code>data_type</code> used
+for sample classification), <code>category_for_label</code> (<code>category</code> used for sample
+classification), <code>algo_name_for_label</code> (<code>algo_name</code> used for sample
+classification), <code>data_type_for_expr</code> (<code>data_type</code> of interest for investigating
+gene expression), <code>category_for_expr</code> (<code>category</code> of interest for investigating
+gene expression), <code>title</code>, <code>title_size</code>, and <code>default_color</code> (if <code>TRUE</code>,
+the default color of ggplot is used, otherwise rainbow).</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb6-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-2"></a><span class="co"># For `sc68_vehi`</span></span>
+<span id="cb6-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-3"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb6-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-4"></a>p &lt;-<span class="st"> </span><span class="kw">plot_violin_signScore</span>(</span>
+<span id="cb6-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-5"></a>  <span class="dt">obj =</span> sc68_vehi, <span class="dt">sign_name =</span> <span class="st">&quot;DOID:5409_S&quot;</span>,</span>
+<span id="cb6-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-6"></a>  <span class="dt">data_type_for_label =</span> <span class="st">&quot;GO&quot;</span>, <span class="dt">category_for_label =</span> <span class="st">&quot;BP&quot;</span>,</span>
+<span id="cb6-7"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-7"></a>  <span class="dt">algo_name_for_label =</span> <span class="st">&quot;seuratFindClusters&quot;</span>,</span>
+<span id="cb6-8"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-8"></a>  <span class="dt">data_type_for_expr =</span> <span class="st">&quot;DO&quot;</span>, <span class="dt">category_for_expr =</span> <span class="st">&quot;disease&quot;</span>,</span>
+<span id="cb6-9"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-9"></a>  <span class="dt">title =</span> <span class="st">&quot;DOID:5409_S</span><span class="ch">\n</span><span class="st">Lung small cell carcinoma</span><span class="ch">\n</span><span class="st">(ASCL1/GRP/..)&quot;</span>,</span>
+<span id="cb6-10"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-10"></a>  <span class="dt">title_size =</span> <span class="dv">16</span>, <span class="dt">default_color =</span> <span class="ot">FALSE</span>)</span>
+<span id="cb6-11"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-11"></a>filename &lt;-<span class="st"> &quot;figures/figure_03_0510.png&quot;</span></span>
+<span id="cb6-12"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb6-12"></a><span class="kw">ggsave</span>(<span class="dt">file =</span> filename, <span class="dt">plot =</span> p, <span class="dt">dpi =</span> <span class="dv">300</span>, <span class="dt">width =</span> <span class="dv">4</span>, <span class="dt">height =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="figures/figure_03_0510.png" width="230px">
+<img src="figures/figure_03_0511.png" width="230px">
+<img src="figures/figure_03_0512.png" width="230px"></p>
+<p>The following function <code>plot_pseudotime_vs_signscore()</code> plots expression
+levels versus pseudotime for a given sign, in which filled circles, bold lines,
+and the shade regions stand for the expression values of samples, mean
+expression levels, and standard deviations (this value is 0 if there are less
+than three samples), respectively.
+The arguments <code>data_type_for_tree</code> and <code>category_for_tree</code> are the data type
+and category used for the branch-based classification of samples (i.e., the
+labels assigned to the branches), while <code>data_type_for_expr</code> and
+<code>category_for_expr</code> for the expression levels of signs of interest.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-1"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb7-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-2"></a><span class="co"># For `sc68_cisp`</span></span>
+<span id="cb7-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-3"></a><span class="co"># ----------------------------------------</span></span>
+<span id="cb7-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-4"></a>p &lt;-<span class="st"> </span><span class="kw">plot_pseudotime_vs_signscore</span>(</span>
+<span id="cb7-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-5"></a>  <span class="dt">obj =</span> sc68_cisp, <span class="dt">sign_name =</span> <span class="st">&quot;path:hsa01524_S&quot;</span>,</span>
+<span id="cb7-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-6"></a>  <span class="dt">data_type_for_tree =</span> <span class="st">&quot;DO&quot;</span>, <span class="dt">category_for_tree =</span> <span class="st">&quot;disease&quot;</span>,</span>
+<span id="cb7-7"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-7"></a>  <span class="dt">data_type_for_expr =</span> <span class="st">&quot;KEGG&quot;</span>, <span class="dt">category_for_expr =</span> <span class="st">&quot;pathway&quot;</span>,</span>
+<span id="cb7-8"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-8"></a>  <span class="dt">title =</span> <span class="st">&quot;KEGG:hsa01524_S</span><span class="ch">\n</span><span class="st">Platinum drug resistance</span><span class="ch">\n</span><span class="st">(TOP2A/BIRC5/..)&quot;</span>,</span>
+<span id="cb7-9"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-9"></a>  <span class="dt">title_size =</span> <span class="dv">22</span>, <span class="dt">label_name =</span> <span class="st">&quot;Label</span><span class="ch">\n</span><span class="st">(DO: disease)&quot;</span>,</span>
+<span id="cb7-10"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-10"></a>  <span class="dt">xlabel =</span> <span class="st">&quot;Pseudotime (DO: disease)&quot;</span>, <span class="dt">ylabel =</span> <span class="st">&quot;Sign score&quot;</span>)</span>
+<span id="cb7-11"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-11"></a>filename &lt;-<span class="st"> &quot;figures/figure_04_0510.png&quot;</span></span>
+<span id="cb7-12"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb7-12"></a><span class="kw">ggsave</span>(<span class="dt">file =</span> filename, <span class="dt">plot =</span> p, <span class="dt">dpi =</span> <span class="dv">300</span>, <span class="dt">width =</span> <span class="fl">7.5</span>, <span class="dt">height =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p><img src="figures/figure_04_0510.png" width="230px">
+<img src="figures/figure_04_0511.png" width="230px">
+<img src="figures/figure_04_0512.png" width="230px"></p>
+<p>Save the objects.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb8-1"></a><span class="kw">saveRDS</span>(day1_norm, <span class="dt">file =</span> <span class="st">&quot;backup/01_500_day1_norm_all.rds&quot;</span>)</span>
+<span id="cb8-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb8-2"></a><span class="kw">saveRDS</span>(day7_hypo, <span class="dt">file =</span> <span class="st">&quot;backup/02_500_day7_hypo_all.rds&quot;</span>)</span>
+<span id="cb8-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb8-3"></a><span class="kw">saveRDS</span>(sc68_vehi, <span class="dt">file =</span> <span class="st">&quot;backup/03_500_sc68_vehi_all.rds&quot;</span>)</span>
+<span id="cb8-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb8-4"></a><span class="kw">saveRDS</span>(sc68_cisp, <span class="dt">file =</span> <span class="st">&quot;backup/04_500_sc68_cisp_all.rds&quot;</span>)</span>
+<span id="cb8-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb8-5"></a><span class="kw">saveRDS</span>(pbmc_<span class="dv">4000</span>, <span class="dt">file =</span> <span class="st">&quot;backup/05_500_pbmc_4000_all.rds&quot;</span>)</span>
+<span id="cb8-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb8-6"></a><span class="kw">saveRDS</span>(pbmc_<span class="dv">6000</span>, <span class="dt">file =</span> <span class="st">&quot;backup/06_500_pbmc_6000_all.rds&quot;</span>)</span></code></pre></div>
+<p>Load the objects.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb9-1"></a>day1_norm &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/01_500_day1_norm_all.rds&quot;</span>)</span>
+<span id="cb9-2"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb9-2"></a>day7_hypo &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/02_500_day7_hypo_all.rds&quot;</span>)</span>
+<span id="cb9-3"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb9-3"></a>sc68_vehi &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/03_500_sc68_vehi_all.rds&quot;</span>)</span>
+<span id="cb9-4"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb9-4"></a>sc68_cisp &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/04_500_sc68_cisp_all.rds&quot;</span>)</span>
+<span id="cb9-5"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb9-5"></a>pbmc_<span class="dv">4000</span> &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/05_500_pbmc_4000_all.rds&quot;</span>)</span>
+<span id="cb9-6"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb9-6"></a>pbmc_<span class="dv">6000</span> &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="dt">file =</span> <span class="st">&quot;backup/06_500_pbmc_6000_all.rds&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="multiple-sign-analysis-by-concatenating-do-co-go-kegg-and-reactome.html#cb10-1"></a><span class="kw">sessionInfo</span>()</span></code></pre></div>
+<pre><code>## R version 4.0.4 (2021-02-15)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Big Sur 10.16
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## loaded via a namespace (and not attached):
+##  [1] bookdown_0.21     digest_0.6.27     R6_2.5.0          jsonlite_1.7.2   
+##  [5] magrittr_2.0.1    evaluate_0.14     stringi_1.5.3     rlang_0.4.10     
+##  [9] rstudioapi_0.13   jquerylib_0.1.3   bslib_0.2.4       rmarkdown_2.7    
+## [13] tools_4.0.4       stringr_1.4.0     xfun_0.22         yaml_2.2.1       
+## [17] compiler_4.0.4    htmltools_0.5.1.1 knitr_1.32        sass_0.3.1</code></pre>
+<pre><code>R version 4.0.4 (2021-02-15)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur 10.16
+
+Matrix products: default
+LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+ [1] grid      parallel  stats4    stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] gridExtra_2.3          plotly_4.9.3           reactome.db_1.74.0     KEGGREST_1.30.1       
+ [5] GOSemSim_2.16.1        clusterProfiler_3.18.1 ontoProc_1.12.0        ontologyIndex_2.7     
+ [9] DOSE_3.16.0            merlot_0.2.2           destiny_3.4.0          SeuratObject_4.0.0    
+[13] Seurat_4.0.1           cluster_2.1.2          Rcpp_1.0.6             umap_0.2.7.0          
+[17] Rtsne_0.15             limma_3.46.0           sva_3.38.0             BiocParallel_1.24.1   
+[21] genefilter_1.72.1      mgcv_1.8-35            nlme_3.1-152           bayNorm_1.8.0         
+[25] viridis_0.6.0          viridisLite_0.4.0      DT_0.18                circlize_0.4.12       
+[29] ComplexHeatmap_2.6.2   plot3D_1.3             ggrepel_0.9.1          ggExtra_0.9           
+[33] org.Hs.eg.db_3.12.0    AnnotationDbi_1.52.0   IRanges_2.24.1         S4Vectors_0.28.1      
+[37] Biobase_2.50.0         BiocGenerics_0.36.0    Matrix_1.3-2           forcats_0.5.1         
+[41] stringr_1.4.0          dplyr_1.0.5            purrr_0.3.4            readr_1.4.0           
+[45] tidyr_1.1.3            tibble_3.1.1           ggplot2_3.3.3          tidyverse_1.3.1       
+
+loaded via a namespace (and not attached):
+  [1] rgl_0.106.6                 vcd_1.4-8                   ica_1.0-2                  
+  [4] class_7.3-18                foreach_1.5.1               lmtest_0.9-38              
+  [7] crayon_1.4.1                laeken_0.5.1                spatstat.core_2.1-2        
+ [10] MASS_7.3-53.1               backports_1.2.1             reprex_2.0.0               
+ [13] rlang_0.4.10                XVector_0.30.0              ROCR_1.0-11                
+ [16] readxl_1.3.1                irlba_2.3.3                 smoother_1.1               
+ [19] rjson_0.2.20                manipulateWidget_0.10.1     bit64_4.0.5                
+ [22] glue_1.4.2                  sctransform_0.3.2           spatstat.sparse_2.0-0      
+ [25] dotCall64_1.0-1             tcltk_4.0.4                 spatstat.geom_2.1-0        
+ [28] haven_2.4.0                 tidyselect_1.1.0            SummarizedExperiment_1.20.0
+ [31] rio_0.5.26                  fitdistrplus_1.1-3          XML_3.99-0.6               
+ [34] zoo_1.8-9                   xtable_1.8-4                RcppHNSW_0.3.0             
+ [37] magrittr_2.0.1              evaluate_0.14               cli_2.4.0                  
+ [40] zlibbioc_1.36.0             rstudioapi_0.13             miniUI_0.1.1.1             
+ [43] sp_1.4-5                    bslib_0.2.4                 rpart_4.1-15               
+ [46] fastmatch_1.1-0             RcppEigen_0.3.3.9.1         maps_3.3.0                 
+ [49] fields_11.6                 shiny_1.6.0                 xfun_0.22                  
+ [52] askpass_1.1                 clue_0.3-59                 tidygraph_1.2.0            
+ [55] pcaMethods_1.82.0           doSNOW_1.0.19               ElPiGraph.R_1.0.0          
+ [58] listenv_0.8.0               Biostrings_2.58.0           png_0.1-7                  
+ [61] future_1.21.0               withr_2.4.2                 bitops_1.0-6               
+ [64] ggforce_0.3.3               ranger_0.12.1               plyr_1.8.6                 
+ [67] cellranger_1.1.0            e1071_1.7-6                 pillar_1.6.0               
+ [70] GlobalOptions_0.1.2         cachem_1.0.4                fs_1.5.0                   
+ [73] scatterplot3d_0.3-41        TTR_0.24.2                  GetoptLong_1.0.5           
+ [76] xts_0.12.1                  vctrs_0.3.7                 ellipsis_0.3.1             
+ [79] generics_0.1.0              tools_4.0.4                 foreign_0.8-81             
+ [82] munsell_0.5.0               tweenr_1.0.2                fgsea_1.16.0               
+ [85] proxy_0.4-25                DelayedArray_0.16.3         fastmap_1.1.0              
+ [88] compiler_4.0.4              paintmap_1.0                abind_1.4-5                
+ [91] httpuv_1.5.5                GenomeInfoDbData_1.2.4      edgeR_3.32.1               
+ [94] lattice_0.20-41             deldir_0.2-10               snow_0.4-3                 
+ [97] utf8_1.2.1                  later_1.1.0.1               BiocFileCache_1.14.0       
+[100] jsonlite_1.7.2              ggplot.multistats_1.0.0     scales_1.1.1               
+[103] graph_1.68.0                pbapply_1.4-3               carData_3.0-4              
+[106] lazyeval_0.2.2              promises_1.2.0.1            car_3.0-10                 
+[109] goftest_1.2-2               spatstat.utils_2.1-0        reticulate_1.19            
+[112] rmarkdown_2.7               openxlsx_4.2.3              cowplot_1.1.1              
+[115] webshot_0.5.2               downloader_0.4              uwot_0.1.10                
+[118] igraph_1.2.6                survival_3.2-10             yaml_2.2.1                 
+[121] htmltools_0.5.1.1           memoise_2.0.0               locfit_1.5-9.4             
+[124] graphlayouts_0.7.1          digest_0.6.27               assertthat_0.2.1           
+[127] mime_0.10                   rappdirs_0.3.3              spam_2.6-0                 
+[130] RSQLite_2.2.6               LSD_4.1-0                   future.apply_1.7.0         
+[133] misc3d_0.9-0                data.table_1.14.0           blob_1.2.1                 
+[136] labeling_0.4.2              splines_4.0.4               Cairo_1.5-12.2             
+[139] RCurl_1.98-1.3              broom_0.7.6                 hms_1.0.0                  
+[142] modelr_0.1.8                colorspace_2.0-0            BiocManager_1.30.12        
+[145] GenomicRanges_1.42.0        shape_1.4.5                 nnet_7.3-15                
+[148] sass_0.3.1                  bookdown_0.21               RANN_2.6.1                 
+[151] enrichplot_1.10.2           fansi_0.4.2                 VIM_6.1.0                  
+[154] parallelly_1.24.0           R6_2.5.0                    ggridges_0.5.3             
+[157] lifecycle_1.0.0             zip_2.1.1                   curl_4.3                   
+[160] jquerylib_0.1.3             leiden_0.3.7                robustbase_0.93-7          
+[163] DO.db_2.9                   qvalue_2.22.0               RcppAnnoy_0.0.18           
+[166] RColorBrewer_1.1-2          iterators_1.0.13            htmlwidgets_1.5.3          
+[169] polyclip_1.10-0             crosstalk_1.1.1             shadowtext_0.0.7           
+[172] rvest_1.0.0                 globals_0.14.0              openssl_1.4.3              
+[175] patchwork_1.1.1             codetools_0.2-18            matrixStats_0.58.0         
+[178] lubridate_1.7.10            GO.db_3.12.1                SingleCellExperiment_1.12.0
+[181] dbplyr_2.1.1                RSpectra_0.16-0             GenomeInfoDb_1.26.7        
+[184] gtable_0.3.0                DBI_1.1.1                   tensor_1.5                 
+[187] httr_1.4.2                  KernSmooth_2.23-18          stringi_1.5.3              
+[190] reshape2_1.4.4              farver_2.1.0                ontologyPlot_1.6           
+[193] annotate_1.68.0             ggthemes_4.2.4              hexbin_1.28.2              
+[196] Rgraphviz_2.34.0            xml2_1.3.2                  rvcheck_0.1.8              
+[199] boot_1.3-27                 scattermore_0.7             DEoptimR_1.0-8             
+[202] bit_4.0.4                   scatterpie_0.1.5            MatrixGenerics_1.2.1       
+[205] spatstat.data_2.1-0         ggraph_2.0.5                pkgconfig_2.0.3            
+[208] knn.covertree_1.0           knitr_1.32</code></pre>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="asurat-using-reactome-optional.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="appendix-a-comparing-performances-of-asurat-and-existing-methods.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["Introduction to ASURAT (ver. 0.0.0.9000).pdf", "Introduction to ASURAT (ver. 0.0.0.9000).epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+--- 
+title: "Introduction to ASURAT (version 0.0.0.9000)"
+author: "Keita Iida"
+date: "`r Sys.Date()`"
+output: pdf_document
+documentclass: book
+bibliography:
+- book.bib
+- packages.bib
+biblio-style: apalike
+link-citations: yes
+description: This is a developmental version of ASURAT.
+site: bookdown::bookdown_site
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r include = FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+
+
+# Overview
+ASURAT is a single-cell RNA sequencing (scRNA-seq) data analysis pipeline,
+developed for simultaneously clustering single-cell transcriptomes
+and biological interpretation.
+Inputting an scRNA-seq data and knowledge-based databases (DBs), ASURAT creates
+lists of biological terms with respect to cell type and biological functions.
+Then, ASURAT creates a functional spectrum matrix.
+By analyzing this matrix, users can cluster samples (or cells) to aid their
+interpretation.
+
+
+
+## License and description
+```
+Package: ASURAT
+Title: Functional annotation-driven unsupervised clustering of scRNA-seq data
+Version: 0.0.0.9000
+Authors@R: person("Keita", "Iida", email = "kiida@protein.osaka-u.ac.jp",
+  role = c("aut", "cre"))
+Description: In single-cell transcriptomics ASURAT assists users to cluster
+    samples (or cells) in biologically explainable manners and find various
+    types of biological terms specifically upregulated in each cluster.
+    Using ASURAT, users can create and analyze a special type of matrix termed
+    "sign-by-sample matrix", of which the rows and columns stand for
+    biological terms and samples, respectively.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: Rcpp (>= 1.0.6)
+LinkingTo: Rcpp
+Suggests: 
+    rmarkdown,
+    knitr,
+    Seurat (>= 3.0.0)
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)
+VignetteBuilder: knitr
+```
+
+
+
+## Computational environment
+MacBook Pro (Big Sur, 16-inch, 2019), Processor (2.4 GHz 8-Core Intel Core i9),
+Memory (64 GB 2667 MHz DDR4).
+
+
+
+## Installation
+The following libraries are used almost everywhere.
+```{r, eval = FALSE}
+# General
+library(tidyverse)       # For efficient handling of data.frame
+library(Matrix)          # For using `readMM`
+
+# Below is a memo for attaching org.Hs.eg.db
+# options(connectionObserver = NULL)
+library(org.Hs.eg.db)    # For using human genome annotation package
+
+# Plot
+library(ggExtra)         # For graphics
+library(ggrepel)         # For graphics with labeling
+library(plot3D)          # For 3-dimensional scatter plot
+library(ComplexHeatmap)  # For ComplexHeatmap
+library(circlize)        # For color mapping function in ComplexHeatmap
+library(DT)              # For using datatable
+library(viridis)         # For using color palette `plasma`
+
+# Normalization
+library(bayNorm)         # For using bayNorm
+# Below is a memo for the install of bayNorm:
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# BiocManager::install(c("bayNorm"))
+
+# Utilities
+library(Rtsne)           # For using Rtsne
+library(umap)            # For using umap
+library(Rcpp)            # For using external C++ codes
+library(cluster)         # For using pam
+library(Seurat)          # For using Seurat
+library(destiny)         # For using diffusion map
+library(merlot)          # For detecting branches along pseudotime
+# Below is a memo for the install of merlot:
+# Sys.setenv("PKG_CXXFLAGS"="-std=c++11")
+# remotes::install_github("soedinglab/merlot")
+
+# Databases
+library(DOSE)            # For using DB for Disease Ontology
+library(ontoProc)        # For using DB for Cell Ontology
+library(clusterProfiler) # For using DB for Gene Ontology
+library(GOSemSim)        # For using godata in GOSemSim package
+library(KEGGREST)        # For using KEGG
+library(reactome.db)     # For using Reactome
+```
+
+Check the R version, which is recommended to be 4.0 or later.
+```{r}
+version
+```
