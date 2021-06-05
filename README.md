@@ -25,6 +25,8 @@ cerv_seurat <- readRDS(file = "backup/cerv_small_seurat.rds")  # Seurat object
 ```
 
 Below are stopgap installations. See [Chapter 1](https://keita-iida.github.io/ASURAT/) for all the requirements.
+
+**Tips**
 Note that users need to replace `org.Hs.eg.db` with other packages when analyzing other animal's scRNA-seq data.
 ```{r, eval = FALSE}
 library(tidyverse)                # For efficient handling of data.frame
