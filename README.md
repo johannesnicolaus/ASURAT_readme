@@ -1,4 +1,4 @@
-# ASURAT (version 0.0.0.9000)
+# ASURAT
 
 ASURAT is a single-cell RNA sequencing (scRNA-seq) data analysis pipeline, developed for simultaneously clustering cells and biological interpretation.
 
