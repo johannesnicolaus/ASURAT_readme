@@ -1,5 +1,4 @@
 # ASURAT
-
 ASURAT is a single-cell RNA sequencing (scRNA-seq) data analysis pipeline, developed for simultaneously clustering cells and biological interpretation.
 
 Introduction, documentation, and tutorial can be found at
@@ -18,17 +17,15 @@ https://keita-iida.github.io/ASURAT/
 
 
 ## Quick start inputting a Seurat object
-
 Although the above [URL](https://keita-iida.github.io/ASURAT/) does not assume Seurat-based analyses, it is beneficial to begin with a Seurat object `obj` including `obj@assays[["RNA"]]@counts` data.
 
-Load a Seurat object (below is an example).
-
+Load a Seurat object for human scRNA-seq data (below is an example).
 ```{r, eval = FALSE}
 cerv_seurat <- readRDS(file = "backup/cerv_small_seurat.rds")  # Seurat object
 ```
 
 Below are stopgap installations. See [Chapter 1](https://keita-iida.github.io/ASURAT/) for all the requirements.
-
+Note that users need to replace `org.Hs.eg.db` with proper packages when analyzing other animal's scRNA-seq data.
 ```{r, eval = FALSE}
 library(tidyverse)                # For efficient handling of data.frame
 library(org.Hs.eg.db)             # For using human genome annotation package
@@ -37,7 +34,6 @@ source("R/function_general.R")		# ASURAT's function
 ```
 
 Create an ASURAT object.
-
 ```{r, eval = FALSE}
 cerv <- make_asurat_obj(mat = cerv_seurat@assays[["RNA"]]@counts,
                         obj_name = "cerv_small")
@@ -54,7 +50,6 @@ cerv[["variable"]] <- dictionary
 ```
 
 The following function `log1p_data()` performs log transform of the input data with a pseudo count `eps`.
-
 ```{r, eval = FALSE}
 log1p_data <- function(obj, eps){
   obj[["history"]][["log1p_data"]][["eps"]] <- eps
@@ -68,7 +63,6 @@ cerv <- log1p_data(obj = cerv, eps = 1)
 ```
 
 The following function `centralize_data()` centralizes the input data on a gene-by-gene basis.
-
 ```{r, eval = FALSE}
 centralize_data <- function(obj){
   mat <- as.matrix(obj[["data"]][["log1p"]])
@@ -82,7 +76,6 @@ cerv <- centralize_data(obj = cerv)
 
 The following function `do_cor_variables()` computes a correlation matrix from the input data.
 Users can choose a measure of correlation coefficient by setting `method` (vector form is also accepted but not recommended due to the file size) such as `pearson`, `spearman`, and `kendall`.
-
 ```{r, eval = FALSE}
 do_cor_variables <- function(obj, method){
   res <- list()
@@ -98,7 +91,6 @@ cerv_cor <- do_cor_variables(obj = cerv, method = c("spearman"))
 ```
 
 Save the objects. Please note that the suffixes of the following filenames, such as `09` and `005`, are only for identifying the computational steps (there is no special significance).
-
 ```{r, eval = FALSE}
 saveRDS(cerv, file = "backup/09_005_cerv_correlation.rds")
 saveRDS(cerv_cor, file = "backup/09_006_cerv_correlation.rds")
