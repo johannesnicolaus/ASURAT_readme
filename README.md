@@ -10,7 +10,10 @@ https://keita-iida.github.io/ASURAT/
 <br>
 
 ## ASURAT's workflow
+```
+# To be uploaded.
 <img src="figures/fig_extra.png" width="90%">
+```
 
 <br>
 
