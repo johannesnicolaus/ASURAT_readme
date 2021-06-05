@@ -8,7 +8,7 @@ https://keita-iida.github.io/ASURAT/
 
 
 
-<br><br>
+<br>
 
 ## ASURAT's workflow
 <img src="figures/fig_extra.png" width="90%">
