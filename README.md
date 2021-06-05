@@ -6,6 +6,8 @@ Introduction, documentation, and tutorial can be found at
 
 https://keita-iida.github.io/ASURAT/
 
+<img src="figures/fig_extra.png" width="500px">
+
 
 
 ## Quick start inputting a Seurat object
