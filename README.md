@@ -6,7 +6,11 @@ Introduction, documentation, and tutorial can be found at
 
 https://keita-iida.github.io/ASURAT/
 
-<img src="figures/fig_extra.png" width="500px">
+<br><br>
+
+<img src="figures/fig_extra.png" width="800px">
+
+<br><br>
 
 
 
