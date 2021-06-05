@@ -10,10 +10,13 @@ https://keita-iida.github.io/ASURAT/
 <br>
 
 ## ASURAT's workflow
-```
-# To be uploaded.
-<img src="figures/fig_extra.png" width="90%">
-```
+1. Preprocessing (data quality control, normalization, etc.)
+2. Collecting databases (Disease Ontology (DO) database, Gene Ontology (GO) database, Kyoto Encyclopedia of Genes and Genomes (KEGG), etc.)
+3. Creating signs (sign is a general biological term representing cell type and various biological functions)
+4. Creating sign-by-sample matrices (SSMs)
+5. Unsupervised clustering of cells
+6. Finding significant signs
+7. Multiple sing analysis (analyzing SSMs from the viewpoints of cell type, biological process, signaling pathway, etc.)
 
 <br>
 
