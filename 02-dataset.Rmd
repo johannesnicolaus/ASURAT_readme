@@ -1,7 +1,6 @@
 # Preparing data sets {#dataset}
 ## Case I: input gene expression matrix with row and column names
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_general.R")
 ```
 
@@ -47,7 +46,6 @@ saveRDS(day7_hypo, file = "backup/02_001_day7_hypo_raw.rds")
 
 ## Case II: input 10x data
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_general.R")
 ```
 
@@ -60,8 +58,7 @@ from which the following SRA files were downloaded:
   GSM4104164).
 
 The raw count matrices were dumped by 10x cellranger with a reference
-genome GRCh38-3.0.0 by using the IPR
-(Institute for Protein Research, Osaka University) server.
+genome GRCh38-3.0.0.
 The following function `read_10xdata` processes the dumped files into a raw
 count matrix.
 In this function, `make.unique()` in `base` package is applied for naming gene
@@ -117,14 +114,13 @@ saveRDS(sc68_cisp, file = "backup/04_001_sc68_cisp_raw.rds")
 
 ## Case III: input 10x PBMC data
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_general.R")
 ```
 
 The data (peripheral blood mononuclear cells from a healthy donor) were
 obtained from 10x Genomics repository (PBMC 4k and 6k).
 
-Input the data.
+Load the data.
 ```{r, eval = FALSE}
 read_10xdata_v2 <- function(path_dir){
   library(Seurat)

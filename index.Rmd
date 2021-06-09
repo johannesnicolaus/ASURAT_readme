@@ -36,7 +36,7 @@ and biological interpretation.
 Inputting an scRNA-seq data and knowledge-based databases (DBs), ASURAT creates
 lists of biological terms with respect to cell type and biological functions.
 Then, ASURAT creates a functional spectrum matrix.
-By analyzing this matrix, users can cluster samples (or cells) to aid their
+By analyzing this matrix, users can cluster cells to aid their
 interpretation.
 
 
@@ -49,8 +49,8 @@ Version: 0.0.0.9000
 Authors@R: person("Keita", "Iida", email = "kiida@protein.osaka-u.ac.jp",
   role = c("aut", "cre"))
 Description: In single-cell transcriptomics ASURAT assists users to cluster
-    samples (or cells) in biologically explainable manners and find various
-    types of biological terms specifically upregulated in each cluster.
+    cells in biologically explainable manners and find various types of
+    biological terms specifically upregulated in each cluster.
     Using ASURAT, users can create and analyze a special type of matrix termed
     "sign-by-sample matrix", of which the rows and columns stand for
     biological terms and samples, respectively.
@@ -113,7 +113,6 @@ library(Seurat)          # For using Seurat
 library(destiny)         # For using diffusion map
 library(merlot)          # For detecting branches along pseudotime
 # Below is a memo for the install of merlot:
-# Sys.setenv("PKG_CXXFLAGS"="-std=c++11")
 # remotes::install_github("soedinglab/merlot")
 
 # Databases

@@ -65,3 +65,16 @@ sc3-1
 asurat-1
 identifying-cell-types-in-pbmc_4000-and-pbmc_6000
 appendix-b-automatically-tuning-the-asurats-parameters
+dimensionality-reduction
+cell-clustering
+visualization
+dimensionality-reduction-1
+cell-clustering-1
+visualization-1
+dimensionality-reduction-2
+cell-clustering-2
+visualization-2
+dimensionality-reduction-3
+cell-clustering-3
+dimensionality-reduction-4
+appendix-b-automatically-tuning-asurats-parameters

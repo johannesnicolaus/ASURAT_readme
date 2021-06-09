@@ -94,7 +94,6 @@ packageVersion("SC3")
 Below are the R codes to obtain the low-dimensional representation of the data.
 Please see Chapter 8 "ASURAT using Disease Ontology DB" for the details.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 
@@ -137,7 +136,6 @@ saveRDS(blacklist, file = "backup/13_001_sc68_vehi_blacklist.rds")
 ### Seurat
 Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_seurat.R")
 day1_norm <- readRDS(file = "backup/01_005_day1_norm_normalized.rds")
 day7_hypo <- readRDS(file = "backup/02_005_day7_hypo_normalized.rds")
@@ -388,18 +386,11 @@ filename <- "backup/nbclust_umap_seurat.xlsx"
 write.xlsx(dlist, file = filename, row.names = TRUE)
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-nbclust_umap <- readRDS(file = "backup/20_001_nbclust_umap_seurat.rds")
-nbclust_tsne <- readRDS(file = "backup/20_002_nbclust_tsne_seurat.rds")
-```
-
 
 
 ### Monocle 3
 Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 day1_norm <- readRDS(file = "backup/01_005_day1_norm_normalized.rds")
 day7_hypo <- readRDS(file = "backup/02_005_day7_hypo_normalized.rds")
 sc68_vehi <- readRDS(file = "backup/03_005_sc68_vehi_normalized.rds")
@@ -615,18 +606,11 @@ filename <- "backup/nbclust_umap_monocle3.xlsx"
 write.xlsx(dlist, file = filename, row.names = TRUE)
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-nbclust_umap <- readRDS(file = "backup/30_001_nbclust_umap_monocle3.rds")
-nbclust_tsne <- readRDS(file = "backup/30_002_nbclust_tsne_monocle3.rds")
-```
-
 
 
 ### SC3
 Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 day1_norm <- readRDS(file = "backup/01_005_day1_norm_normalized.rds")
 day7_hypo <- readRDS(file = "backup/02_005_day7_hypo_normalized.rds")
 sc68_vehi <- readRDS(file = "backup/03_005_sc68_vehi_normalized.rds")
@@ -773,17 +757,11 @@ filename <- "backup/asw_sc3.xlsx"
 write.xlsx(res, file = filename, row.names = TRUE)
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-asw_sc3 <- readRDS(file = "backup/40_001_asw_sc3.rds")
-```
-
 
 
 ### Principal component analysis (PCA)
 Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 day1_norm <- readRDS(file = "backup/01_005_day1_norm_normalized.rds")
 day7_hypo <- readRDS(file = "backup/02_005_day7_hypo_normalized.rds")
 sc68_vehi <- readRDS(file = "backup/03_005_sc68_vehi_normalized.rds")
@@ -995,12 +973,6 @@ filename <- "backup/nbclust_umap_pca.xlsx"
 write.xlsx(dlist, file = filename, row.names = TRUE)
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-nbclust_umap <- readRDS(file = "backup/50_001_nbclust_umap_pca.rds")
-nbclust_tsne <- readRDS(file = "backup/50_002_nbclust_tsne_pca.rds")
-```
-
 
 
 ### ASURAT
@@ -1010,7 +982,6 @@ In this section, we choose proper databases for producing the greater ASWs.
 
 Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_general.R")
 source("R/function_sign.R")
 source("R/plot.R")
@@ -1305,18 +1276,11 @@ filename <- "backup/nbclust_umap_asurat.xlsx"
 write.xlsx(dlist, file = filename, row.names = TRUE)
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-nbclust_umap <- readRDS(file = "backup/60_001_nbclust_umap_asurat.rds")
-nbclust_tsne <- readRDS(file = "backup/60_002_nbclust_tsne_asurat.rds")
-```
-
 
 
 ### Comparing clustering validity indices
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 nbclust_umap_seurat   <- readRDS(file = "backup/20_001_nbclust_umap_seurat.rds")
 nbclust_umap_monocle3 <- readRDS(
   file = "backup/30_001_nbclust_umap_monocle3.rds")
@@ -1490,7 +1454,6 @@ by using Seurat, Monocle 3 plus Garnett, SC3, and ASURAT.
 ### Seurat
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_seurat.R")
 pbmc_4000 <- readRDS(file = "backup/15_020_pbmc_4000_seurat.rds")
 pbmc_6000 <- readRDS(file = "backup/16_020_pbmc_6000_seurat.rds")
@@ -1719,18 +1682,11 @@ saveRDS(pbmc_4000_cell, file = "backup/05_025_pbmc_4000_cell_seurat.rds")
 saveRDS(pbmc_6000_cell, file = "backup/06_025_pbmc_6000_cell_seurat.rds")
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-pbmc_4000_cell <- readRDS(file = "backup/05_025_pbmc_4000_cell_seurat.rds")
-pbmc_6000_cell <- readRDS(file = "backup/06_025_pbmc_6000_cell_seurat.rds")
-```
-
 
 
 ### Monocle 3
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 pbmc_4000 <- readRDS(file = "backup/15_030_pbmc_4000_monocle3.rds")
 pbmc_6000 <- readRDS(file = "backup/16_030_pbmc_6000_monocle3.rds")
 ```
@@ -2053,18 +2009,11 @@ saveRDS(pbmc_4000_cell, file = "backup/05_035_pbmc_4000_cell_monocle3.rds")
 saveRDS(pbmc_6000_cell, file = "backup/06_035_pbmc_6000_cell_monocle3.rds")
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-pbmc_4000_cell <- readRDS(file = "backup/05_035_pbmc_4000_cell_monocle3.rds")
-pbmc_6000_cell <- readRDS(file = "backup/06_035_pbmc_6000_cell_monocle3.rds")
-```
-
 
 
 ### SC3
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 pbmc_4000 <- readRDS(file = "backup/15_040_pbmc_4000_sc3.rds")
 pbmc_6000 <- readRDS(file = "backup/16_040_pbmc_6000_sc3.rds")
 ```
@@ -2191,18 +2140,11 @@ saveRDS(pbmc_4000_cell, file = "backup/05_045_pbmc_4000_cell_sc3.rds")
 saveRDS(pbmc_6000_cell, file = "backup/06_045_pbmc_6000_cell_sc3.rds")
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-pbmc_4000_cell <- readRDS(file = "backup/05_045_pbmc_4000_cell_sc3.rds")
-pbmc_6000_cell <- readRDS(file = "backup/06_045_pbmc_6000_cell_sc3.rds")
-```
-
 
 
 ### ASURAT
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 pbmc_4000 <- readRDS(file = "backup/05_500_pbmc_4000_all.rds")
 pbmc_6000 <- readRDS(file = "backup/06_500_pbmc_6000_all.rds")
 ```
@@ -2400,18 +2342,11 @@ saveRDS(pbmc_4000_cell, file = "backup/05_065_pbmc_4000_cell_asurat.rds")
 saveRDS(pbmc_6000_cell, file = "backup/06_065_pbmc_6000_cell_asurat.rds")
 ```
 
-Load the objects.
-```{r, eval = FALSE}
-pbmc_4000_cell <- readRDS(file = "backup/05_065_pbmc_4000_cell_asurat.rds")
-pbmc_6000_cell <- readRDS(file = "backup/06_065_pbmc_6000_cell_asurat.rds")
-```
-
 
 
 ## Identifying cell types in `pbmc_4000` and `pbmc_6000`
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 pbmc_4000_seurat <- readRDS(file = "backup/05_025_pbmc_4000_cell_seurat.rds")
 pbmc_6000_seurat <- readRDS(file = "backup/06_025_pbmc_6000_cell_seurat.rds")
 pbmc_4000_monocle <- readRDS(file = "backup/05_035_pbmc_4000_cell_monocle3.rds")
@@ -2630,5 +2565,3 @@ ggsave(file = filename, plot = p, dpi = 300, width = 4.4, height = 4.5)
 ```
 
 <img src="figures/figure_95_0001.png" width="400px">
-
-

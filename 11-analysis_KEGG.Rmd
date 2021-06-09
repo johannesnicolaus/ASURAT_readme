@@ -1,9 +1,9 @@
 # ASURAT using KEGG (optional)
 In this section, we apply ASURAT on cancer patient- and healthy donor-derived
 single-cell transcriptomes.
-ASURAT transforms a single-cell transcriptome to cell-type or functional spectra
-by extracting the system of signs on each of the thousands of biological terms
-and the associated gene sets obtained from public databases.
+ASURAT transforms a single-cell transcriptome to cell-type or functional
+spectrum matrix by extracting the system of signs on each of the thousands of
+biological terms and the associated gene sets obtained from public databases.
 The resulting matrices termed sign-by-sample matrices (SSMs) can be supplied
 to the subsequent unsupervised clusterings.
 
@@ -12,7 +12,6 @@ to the subsequent unsupervised clusterings.
 ## Creating sign-by-sample matrices
 Input the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 tidy_KEGG <-
@@ -50,7 +49,7 @@ pbmc_4000 <- myfunc(pbmc_4000)
 pbmc_6000 <- myfunc(pbmc_6000)
 ```
 
-Input `tidy_KEGG` into the ASURAT objects.
+Input a formatted Gene Ontology database `tidy_KEGG` into the ASURAT object.
 ```{r, eval = FALSE}
 day1_norm[["sign"]][["KEGG"]] <- tidy_KEGG
 day7_hypo[["sign"]][["KEGG"]] <- tidy_KEGG
@@ -61,10 +60,12 @@ pbmc_6000[["sign"]][["KEGG"]] <- tidy_KEGG
 ```
 
 The following function `do_quickQC_sign()` takes an intersection of genes
-between user's data and `tidy_KEGG`, and then excludes the IDs including too few
-or too many genes by setting thresholds `min_ngenes` (minimal number of genes
-which must be greater than one) and `max_ngenes` (maximal number of genes
+between user's data and `tidy_KEGG`, and then excludes the IDs including too
+few or too many genes by setting thresholds `min_ngenes` (minimal number of
+genes which must be greater than one) and `max_ngenes` (maximal number of genes
 which must be greater than one).
+Here, the values of `min_ngenes` and `max_ngenes` were set as 2 and 1000,
+respectively, as default values.
 ```{r, eval = FALSE}
 day1_norm <- do_quickQC_sign(obj = day1_norm, data_type = "KEGG",
                              min_ngenes = 2, max_ngenes = 1000)
@@ -79,23 +80,23 @@ pbmc_4000 <- do_quickQC_sign(obj = pbmc_4000, data_type = "KEGG",
 pbmc_6000 <- do_quickQC_sign(obj = pbmc_6000, data_type = "KEGG",
                              min_ngenes = 2, max_ngenes = 1000)
 ```
-The computational results are stored in `obj[["sign"]][["KEGG"]][["pathway"]]`.
+The result is stored in `obj[["sign"]][["KEGG"]][["pathway"]]`.
 
-The following function `separate_variables_sign()` separates genes annotated
+The following function `separate_variables_sign()` classifies genes annotated
 with each biological description into three groups, i.e., strongly correlated
 gene set (SCG), variably correlated gene set (VCG), and weakly correlated gene
 set (WCG).
-The arguments are `obj`, `obj_cor`, `data_type`, `method = "spearman"` (one of
-the arguments input in `do_cor_variables()`), `th_posi`, and `th_nega`
-(threshold values of positive and negative correlation coefficients,
-respectively).
+The arguments are `obj` (ASURAT object), `obj_cor`, `data_type`,
+`method = "spearman"` (one of the arguments input in `do_cor_variables()`),
+`th_posi`, and `th_nega` (threshold values of positive and negative correlation
+coefficients, respectively).
 
 **Tips:**
 This decomposition sometimes produces unexpected results.
 In fact the smaller values of `th_posi` and `th_nega` do not always result in
 the larger sizes of SCG and VCG.
 Hence we recommend users to carefully turn the parameters, checking if the
-signs of interest are included in the results.
+biological terms (signs) of interest are included in the results.
 ```{r, eval = FALSE}
 day1_norm_red <- separate_variables_sign(obj = day1_norm,
                                          obj_cor = day1_norm_cor,
@@ -128,7 +129,7 @@ pbmc_6000_red <- separate_variables_sign(obj = pbmc_6000,
                                          method = "spearman",
                                          th_posi = 0.15, th_nega = -0.17)
 ```
-The computational result is stored in `obj[["sign"]][["KEGG"]][["pathway"]]`.
+The result is stored in `obj[["sign"]][["KEGG"]][["pathway"]]`.
 
 The following function `select_sign()` selects the signs by a user-defined
 criteria, which has been preset as follows:
@@ -164,7 +165,7 @@ pbmc_4000_red <- select_sign(obj = pbmc_4000_red, data_type = "KEGG",
 pbmc_6000_red <- select_sign(obj = pbmc_6000_red, data_type = "KEGG",
                              min_cnt = 4, min_cnt_weak = 2)
 ```
-The computational result is stored in `obj[["sign"]][["KEGG"]][["pathway"]]`.
+The result is stored in `obj[["sign"]][["KEGG"]][["pathway"]]`.
 
 Save the objects.
 ```{r, eval = FALSE}
@@ -194,8 +195,9 @@ separated by `|`).
 **Tips:**
 Users may take into account the following points:
 
-1. correlation coefficients
-2. information contents (ICs)
+1. correlation coefficients (small value means that the sign has low relevance)
+2. information contents (ICs) (small value means that the biological term
+is less specific)
 3. ratios of mitochondrial genes for SCG and VCG
 4. biological terms which are obviously unrelated to the research objective
 
@@ -224,19 +226,13 @@ keywords <- "COVID-19|foo"
 pbmc_6000_red <- manual_curation_sign(obj = pbmc_6000_red, data_type = "KEGG",
                                       keywords = keywords)
 ```
-The computational result is stored in `obj[["sign"]][["KEGG"]][["pathway"]]`.
+The result is stored in `obj[["sign"]][["KEGG"]][["pathway"]]`.
 
 The following function `make_signxsample_matrix()` makes sign-by-sample
 matrices.
 The arguments are `obj`, `data_type`, `weight_strg` (weight parameter for SCG:
 the default value is 0.5) and `weight_vari` (weight parameter for VCG:
 the default value is 0.5).
-
-**Tips:**
-The bigger the weight constants are, the sharper the results may be.
-However, setting `weight_strg` and `weight_vari` as 1 or 0 is not recommended
-because there is a possibility that different signs have the same SCG, VCG, or
-WCG, which makes the matrix singular.
 ```{r, eval = FALSE}
 day1_norm_red <- make_signxsample_matrix(
   obj = day1_norm_red, data_type = "KEGG", weight_strg = 0.5, weight_vari = 0.5)
@@ -251,20 +247,13 @@ pbmc_4000_red <- make_signxsample_matrix(
 pbmc_6000_red <- make_signxsample_matrix(
   obj = pbmc_6000_red, data_type = "KEGG", weight_strg = 0.5, weight_vari = 0.5)
 ```
-The computational result is stored in
-`obj[["sign"]][["KEGGxSample"]][["pathway"]]`.
+The result is stored in `obj[["sign"]][["KEGGxSample"]][["pathway"]]`.
 
-The following function `plot_Heatmap_SignxSamp()` shows a heat map by using
+The following command `plot_Heatmap_SignxSamp()` plots a heat map by using
 `Heatmap()` in `ComplexHeatmap` package applied to the sign-by-sample matrices.
 The arguments are `obj`, `data_type`, `category`, `algo_name = NULL`,
 `method` (agglomeration method to be used such as `complete`, `ward.D2`,
-`average`, etc.), `show_nReads` (if `TRUE`, the number of reads is shown),
-`title` (title of the figure), `name` (name of the color bar),
-`show_rownames_sign` (if `TRUE`, the name of sign is shown),
-`show_rownames_label` (if `TRUE`, the name of label is shown),
-`show_rownames_nReads` (if `TRUE`, the name of number of reads is shown), and
-`default_color` (if `TRUE`, the default color of ggplot is used, otherwise
-rainbow).
+`average`, etc.), and `show_nReads` (if `TRUE`, the number of reads is shown).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # day1_norm
@@ -368,10 +357,9 @@ saveRDS(pbmc_6000_red, file = "backup/06_301_pbmc_6000_matrix_KEGG.rds")
 
 
 
-## Dimension reduction
+## Dimensionality reduction
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 day1_norm <- readRDS(file = "backup/01_301_day1_norm_matrix_KEGG.rds")
@@ -398,15 +386,14 @@ pbmc_4000 <- do_pca_sign(obj = pbmc_4000,
 pbmc_6000 <- do_pca_sign(obj = pbmc_6000,
                          data_type = "KEGG", category = "pathway")
 ```
-The computational result is stored in
-`obj[["reduction"]][["pca"]][["KEGG"]][["pathway"]]`.
+The result is stored in `obj[["reduction"]][["pca"]][["KEGG"]][["pathway"]]`.
 
 The following function `do_tsne_sign()` performs `Rtsne()` in `Rtsne` package
 based on the sign-by-sample matrices of the input `data_type` and `category`.
-The arguments are `obj`, `data_type`, `category`, `pca_dim` (an integer:
-dimension of principal component used for t-SNE, in which `NULL` is accepted if
-users would like to compute t-SNE from the original sample-by-sign matrices),
-and `tsne_dim` (t-SNE dimension: either `2` or `3`).
+The arguments are `obj` (ASURAT object), `data_type`, `category`,
+`pca_dim` (dimension of principal component used for t-SNE, in which `NULL` is
+accepted if users would like to compute t-SNE from the original sample-by-sign
+matrices), and `tsne_dim` (t-SNE dimension: either `2` or `3`).
 ```{r, eval = FALSE}
 day1_norm <- do_tsne_sign(obj = day1_norm,
                           data_type = "KEGG", category = "pathway",
@@ -427,17 +414,13 @@ pbmc_6000 <- do_tsne_sign(obj = pbmc_6000,
                           data_type = "KEGG", category = "pathway",
                           pca_dim = NULL, tsne_dim = 2)
 ```
-The computational result is stored in
-`obj[["reduction"]][["tsne"]][["KEGG"]][["pathway"]]`.
+The result is stored in `obj[["reduction"]][["tsne"]][["KEGG"]][["pathway"]]`.
 
 The following function `plot_tsne_sign()` shows the data in a t-SNE space,
 in which the space dimension is automatically given by `tsne_dim` used in
 `do_tsne_sign()`.
 The arguments are `obj`, `data_type`, `category`, `algo_name = NULL`, `theta`
-(angle of view for 3D plots), `phi` (angle of view for 3D plots), `title`,
-`xlabel`, `ylabel`, `zlabel`, and `default_color` (if `TRUE`, the default color
-of ggplot is used, otherwise rainbow).
-Here, `theta`, `phi`, `zlabel` are set only for 3D plots.
+(angle of view for 3D plots), and `phi` (angle of view for 3D plots).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # day1_norm
@@ -513,10 +496,10 @@ ggsave(file = filename, plot = p, dpi = 300, width = 4.3, height = 4.5)
 
 The following function `do_umap_sign()` performs `umap()` in `umap` package
 based on the sign-by-sample matrices of the input `data_type` and `category`.
-The arguments are `obj`, `data_type`, `category`, `pca_dim` (an integer:
-dimension of principal component used for UMAP, in which `NULL` is accepted if
-users would like to compute UMAP from the original sample-by-sign matrices),
-and `umap_dim` (UMAP dimension: either `2` or `3`).
+The arguments are `obj`, `data_type`, `category`, `pca_dim` (dimension of
+principal component used for UMAP, in which `NULL` is accepted if users would
+like to compute UMAP from the original sample-by-sign matrices), and
+`umap_dim` (UMAP dimension: either `2` or `3`).
 ```{r, eval = FALSE}
 day1_norm <- do_umap_sign(obj = day1_norm, data_type = "KEGG",
                           category = "pathway", pca_dim = NULL, umap_dim = 2)
@@ -531,17 +514,13 @@ pbmc_4000 <- do_umap_sign(obj = pbmc_4000, data_type = "KEGG",
 pbmc_6000 <- do_umap_sign(obj = pbmc_6000, data_type = "KEGG",
                           category = "pathway", pca_dim = NULL, umap_dim = 2)
 ```
-The computational result is stored in
-`obj[["reduction"]][["umap"]][["KEGG"]][["pathway"]]`.
+The result is stored in `obj[["reduction"]][["umap"]][["KEGG"]][["pathway"]]`.
 
 The following function `plot_umap_sign()` shows the data in a UMAP space,
 in which the space dimension is automatically given by `umap_dim` used in
 `do_umap_sign()`.
 The arguments are `obj`, `data_type`, `category`, `algo_name = NULL`, `theta`
-(angle of view for 3D plots), `phi` (angle of view for 3D plots), `title`,
-`xlabel`, `ylabel`, `zlabel`, and `default_color` (if `TRUE`, the default color
-of ggplot is used, otherwise rainbow).
-Here, `theta`, `phi`, `zlabel` are set only for 3D plots.
+(angle of view for 3D plots), and `phi` (angle of view for 3D plots).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # day1_norm
@@ -615,7 +594,7 @@ ggsave(file = filename, plot = p, dpi = 300, width = 4.3, height = 4.5)
 <img src="figures/figure_05_0306.png" width="150px">
 <img src="figures/figure_06_0306.png" width="150px">
 
-The following function `do_DiffusionMap_sign()` performs `DiffusionMap()` in
+The following function `do_DiffusionMap_sign()` performs `DiffusionMap()` using
 `destiny` package, where the arguments are preset as `sigma = "local"` and
 `distance = "euclidean"`.
 The arguments are `obj`, `data_type`, `category`, `sigma`
@@ -623,6 +602,10 @@ The arguments are `obj`, `data_type`, `category`, `sigma`
 `pca_dim` (an integer: dimension of principal component used for UMAP, in which
 `NULL` is accepted if users would like to compute UMAP from the original
 sample-by-sign matrices)
+
+**Tips:**
+If the resulting diffusion map is distorted by outliers, tuning of `pca_dim`
+will be required.
 ```{r, eval = FALSE}
 day1_norm <- do_DiffusionMap_sign(obj = day1_norm, data_type = "KEGG",
                                   category = "pathway", pca_dim = NULL)
@@ -637,17 +620,13 @@ pbmc_4000 <- do_DiffusionMap_sign(obj = pbmc_4000, data_type = "KEGG",
 pbmc_6000 <- do_DiffusionMap_sign(obj = pbmc_6000, data_type = "KEGG",
                                   category = "pathway", pca_dim = NULL)
 ```
-The computational result is stored in
-`obj[["reduction"]][["dmap"]][["KEGG"]][["pathway"]]`.
+The result is stored in `obj[["reduction"]][["dmap"]][["KEGG"]][["pathway"]]`.
 
-The following function `do_DiffusionMap_sign()` performs `DiffusionMap()` in
-`destiny` package, where the arguments are preset as `sigma = "local"` and
-`distance = "euclidean"`.
-The arguments are `obj`, `data_type`, `category`, `sigma`
-(argument of `DiffusionMap()`), `distance` (argument of `DiffusionMap()`), and
-`pca_dim` (an integer: dimension of principal component used for UMAP, in which
-`NULL` is accepted if users would like to compute UMAP from the original
-sample-by-sign matrices)
+The following function `plot_DiffusionMap_sign()` shows the data in a diffusion
+space.
+The arguments are `obj`, `data_type`, `category`, `algo_name = NULL`, `dims`
+(dimension vector for the plot), `theta` (angle of view), and
+`phi` (angle of view).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # day1_norm
@@ -757,19 +736,15 @@ pbmc_6000 <- readRDS(file = "backup/06_302_pbmc_6000_reduction_KEGG.rds")
 
 
 
-## Sample clustering
+## Cell clustering
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 pbmc_4000 <- readRDS(file = "backup/05_302_pbmc_4000_reduction_KEGG.rds")
 pbmc_6000 <- readRDS(file = "backup/06_302_pbmc_6000_reduction_KEGG.rds")
 ```
 
-If the clusters of samples are well separated in the low dimensional space,
-they have a chance to be clustered in the original space spanned by the row
-vectors of sign-by-sample matrices.
 Here users can choose one of the following unsupervised clustering methods.
 
 **Tips:**
@@ -777,7 +752,7 @@ A medoid-and-flat type of unsupervised clustering such as k-medoids method is
 the most intuitive way, but their classification results do not always match to
 the clusters in the low dimensional space.
 On the other hand, though Louvain algorithm with k-nearest neighbor graph
-(see below) is a more flexible way, it should be better to try first using more
+(see below) is a more flexible way, it might be better to try first using more
 simple and translatable method.
 
 **1. Partitioning around medoids (PAM)**
@@ -798,7 +773,7 @@ The arguments are `obj`, `data_type`, `category`, and `k` (argument of `pam()`).
 # plot(mat, pch=21, bg=col[lab])
 # legend("bottomright", legend=unique(sort(lab)), pch=21, pt.bg=col)
 ```
-If the above is conducted, the computational results are stored in
+The computational results are stored in
 `obj[["classification"]][["pam"]][["KEGG"]][["pathway"]]` and
 `obj[["sample"]][["pam_KEGG_pathway"]]`.
 
@@ -822,7 +797,7 @@ The arguments are `obj`, `data_type`, `category`, `method`
 # plot(mat, pch=21, bg=col[lab])
 # legend("bottomright", legend=unique(sort(lab)), pch=21, pt.bg=col)
 ```
-If the above is conducted, the computational results are stored in
+The computational results are stored in
 `obj[["classification"]][["hclustCutree"]][["KEGG"]][["pathway"]]` and
 `obj[["sample"]][["hclustCutree_KEGG_pathway"]]`.
 
@@ -854,9 +829,8 @@ pbmc_6000 <- classify_samples_seuratFindClusters_sign(
 # plot(mat, pch=21, bg=col[lab])
 # legend("bottomright", legend=unique(sort(lab)), pch=21, pt.bg=col)
 ```
-The computational results are stored in
-`obj[["sample"]][["seuratFindClusters_KEGG_pathway"]]` and
-`obj[["classification"]][["seuratFindClusters"]][["KEGG"]][["pathway"]]`.
+The results are stored in `obj[["sample"]][["seuratFindClusters_KEGG_pathway"]]`
+and `obj[["classification"]][["seuratFindClusters"]][["KEGG"]][["pathway"]]`.
 
 **4. Clustering by branch detection along pseudotime**
 
@@ -986,21 +960,20 @@ ggsave(file = filename, plot = p, dpi = 200, width = 4.3, height = 4)
 ## Significant signs
 In this subsection, signs of which the sign scores are specifically upregulated
 in some cluster are detected by computing the separation indices.
+The concept of significant sign is similar to that of differentially expressed
+genes (DEGs).
 
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 pbmc_4000 <- readRDS(file = "backup/05_303_pbmc_4000_classification_KEGG.rds")
 pbmc_6000 <- readRDS(file = "backup/06_303_pbmc_6000_classification_KEGG.rds")
 ```
 
-The following function `auto_find_marker_sign()` executes another original
-function `find_marker_sign()` in a loop manner.
-Here `find_marker_sign()` computes separation indices (i.e., non-parametric
-measure of degree in separation of two random variable sets) of signs of
-interest for each subpopulation.
+The following function `auto_find_marker_sign()` computes separation indices
+(i.e., non-parametric measure of degree in separation of two random variable
+sets) of signs of interest for each subpopulation.
 The arguments are `obj`, `data_type_for_label` (`data_type` used for sample
 classification), `category_for_label` (`category` used for sample
 classification), `algo_name_for_label` (`algo_name` used for sample
@@ -1024,7 +997,7 @@ pbmc_6000 <- auto_find_marker_sign(obj = pbmc_6000,
                                    data_type_for_expr = "KEGG",
                                    category_for_expr = "pathway")
 ```
-The computational results are stored in
+The results are stored in
 `obj[["marker"]][["KEGG"]][["pathway"]][["Label_KEGG_pathway_1_vs_2/3"]]`,
 `obj[["marker"]][["KEGG"]][["pathway"]][["Label_KEGG_pathway_2_vs_1/3"]]`,
 `obj[["marker"]][["KEGG"]][["pathway"]][["Label_KEGG_pathway_3_vs_1/2"]]`, and
@@ -1046,15 +1019,14 @@ datatable(pbmc_6000[["marker"]][["KEGG"]][["pathway"]][["all"]],
 
 <br><br><br><br><br><br><br><br><br><br>
 
-The following function `plot_violin_signExpression()` shows the distribution of
+The following function `plot_violin_signScore()` shows the distribution of
 expression levels of a given sign across subpopulations by violin plots.
 The arguments are `obj`, `sign_name`, `data_type_for_label` (`data_type` used
 for sample classification), `category_for_label` (`category` used for sample
 classification), `algo_name_for_label` (`algo_name` used for sample
 classification), `data_type_for_expr` (`data_type` of interest for investigating
-gene expression), `category_for_expr` (`category` of interest for investigating
-gene expression), `title`, `title_size`, and `default_color` (if `TRUE`,
-the default color of ggplot is used, otherwise rainbow).
+gene expression), and `category_for_expr` (`category` of interest for
+investigating gene expression).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # For `pbmc_4000`
@@ -1139,14 +1111,14 @@ ggsave(file = filename, plot = p, dpi = 200, width = 4, height = 4)
 <img src="figures/figure_06_0341.png" width="230px">
 <img src="figures/figure_06_0342.png" width="230px">
 
-The following function `plot_tsne_signExpression()` and
-`plot_dmap_signExpression()` show the sign score of a given sign on the t-SNE
-plane and diffusion map, respectively.
+The functions `plot_tsne_signScore()`, `plot_umap_signScore()`, and
+`plot_dmap_signScore()` show the sign score of a given sign on the t-SNE,
+UMAP, and diffusion map spaces, respectively.
 ```{r, eval = FALSE}
 # ----------------------------------------
 # For `pbmc_4000`
 # ----------------------------------------
-p <- plot_tsne_signExpression(
+p <- plot_tsne_signScore(
   obj = pbmc_4000, sign_name = "path:hsa04650_S",
   data_type_for_tsne = "KEGG", category_for_tsne = "pathway",
   data_type_for_expr = "KEGG", category_for_expr = "pathway",

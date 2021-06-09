@@ -1,14 +1,14 @@
-# Appendix B: automatically tuning the ASURAT’s parameters
+# Appendix B: automatically tuning ASURAT’s parameters
 In this section, we demonstrate tuning the parameters of ASURAT for creating
 an interpretable system of signs as well as a sign-by-sample matrix (SSM) for
-Disease Ontology (DO) by using a single-cell RNA sequencing data `day1_norm`.
+Disease Ontology (DO) by using a single-cell RNA sequencing data `day1_norm`
+(cervical cancer data under normoxic condition).
 
-Below are the R scripts, which produces a series of images showing UMAPs of
-the SSMs for DO.
+Below are the R scripts to produce a series of plots of UMAP of the SSMs for DO.
 Please note that the R codes in `function_movie.R` is almost the same with
 those in `function_sign.R` except that `function_movie.R` always requires
 an argument `category` as input and it does not record the parameters in
-`obj[["history"]]` for the fast computing.
+`obj[["history"]]` for faster computing.
 ```{r, eval = FALSE}
 # ----------------------------------------
 # Installation

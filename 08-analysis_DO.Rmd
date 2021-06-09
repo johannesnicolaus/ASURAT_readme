@@ -1,21 +1,21 @@
 # ASURAT using Disease Ontology database
-In this section, we apply ASURAT on human cancer transcriptomes.
-ASURAT transforms a single-cell transcriptome to cell-type or functional spectra
-by extracting the system of signs on each of the thousands of biological terms
-and the associated gene sets obtained from public databases.
+In this section, we apply ASURAT on human cancer transcriptome.
+ASURAT transforms a single-cell transcriptome to cell-type or functional
+spectrum matrix by extracting the system of signs on each of the thousands of
+biological terms and the associated gene sets obtained from public databases.
 The resulting matrices termed sign-by-sample matrices (SSMs) can be supplied
 to the subsequent unsupervised clusterings.
 
 **Tips:**
-Disease Ontology DB is only for human disease.
-Users should select proper databases.
+Disease Ontology database is basically used for analyses of human disease
+sample.
+Users should select proper databases depending on their data.
 
 
 
 ## Creating sign-by-sample matrices
-Input the data.
+Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 tidy_DO <- readRDS(file = "data/2020_001_databases/20201213_tidy_DO_human.rds")
@@ -37,7 +37,6 @@ To make the object small, unused items are removed.
 myfunc <- function(obj){
   obj[["data"]][["raw"]] <- NULL
   obj[["data"]][["bayNorm"]] <- NULL
-  obj[["data"]][["beer"]] <- NULL
   return(obj)
 }
 
@@ -47,7 +46,7 @@ sc68_vehi <- myfunc(sc68_vehi)
 sc68_cisp <- myfunc(sc68_cisp)
 ```
 
-Input `tidy_DO` into the ASURAT objects.
+Input a formatted Disease Ontology database `tidy_DO` into the ASURAT object.
 ```{r, eval = FALSE}
 day1_norm[["sign"]][["DO"]] <- tidy_DO
 day7_hypo[["sign"]][["DO"]] <- tidy_DO
@@ -60,6 +59,8 @@ between user's data and `tidy_DO`, and then excludes the IDs including too
 few or too many genes by setting thresholds `min_ngenes` (minimal number of
 genes which must be greater than one) and `max_ngenes` (maximal number of genes
 which must be greater than one).
+Here, the values of `min_ngenes` and `max_ngenes` were set as 2 and 1000,
+respectively, as default values.
 ```{r, eval = FALSE}
 day1_norm <- do_quickQC_sign(obj = day1_norm, data_type = "DO",
                              min_ngenes = 2, max_ngenes = 1000)
@@ -70,23 +71,23 @@ sc68_vehi <- do_quickQC_sign(obj = sc68_vehi, data_type = "DO",
 sc68_cisp <- do_quickQC_sign(obj = sc68_cisp, data_type = "DO",
                              min_ngenes = 2, max_ngenes = 1000)
 ```
-The computational results are stored in `obj[["sign"]][["DO"]][["disease"]]`.
+The results are stored in `obj[["sign"]][["DO"]][["disease"]]`.
 
-The following function `separate_variables_sign()` separates genes annotated
+The following function `separate_variables_sign()` classifies genes annotated
 with each biological description into three groups, i.e., strongly correlated
 gene set (SCG), variably correlated gene set (VCG), and weakly correlated gene
 set (WCG).
-The arguments are `obj`, `obj_cor`, `data_type`, `method = "spearman"` (one of
-the arguments input in `do_cor_variables()`), `th_posi`, and `th_nega`
-(threshold values of positive and negative correlation coefficients,
-respectively).
+The arguments are `obj` (ASURAT object), `obj_cor`, `data_type`,
+`method = "spearman"` (one of the arguments input in `do_cor_variables()`),
+`th_posi`, and `th_nega` (threshold values of positive and negative correlation
+coefficients, respectively).
 
 **Tips:**
 This decomposition sometimes produces unexpected results.
 In fact the smaller values of `th_posi` and `th_nega` do not always result in
 the larger sizes of SCG and VCG.
-Hence we recommend users to carefully turn the parameters, checking if the
-signs of interest are included in the results.
+Hence we recommend users to carefully tune the parameters, checking if the
+biological terms (signs) of interest are included in the results.
 ```{r, eval = FALSE}
 day1_norm_red <- separate_variables_sign(obj = day1_norm,
                                          obj_cor = day1_norm_cor,
@@ -109,7 +110,7 @@ sc68_cisp_red <- separate_variables_sign(obj = sc68_cisp,
                                          method = "spearman",
                                          th_posi = 0.28, th_nega = -0.22)
 ```
-The computational result is stored in `obj[["sign"]][["DO"]][["disease"]]`.
+The result is stored in `obj[["sign"]][["DO"]][["disease"]]`.
 
 The following function `select_sign()` selects the signs by a user-defined
 criteria, which has been preset as follows:
@@ -141,7 +142,7 @@ sc68_vehi_red <- select_sign(obj = sc68_vehi_red, data_type = "DO",
 sc68_cisp_red <- select_sign(obj = sc68_cisp_red, data_type = "DO",
                              min_cnt = 3, min_cnt_weak = 2)
 ```
-The computational result is stored in `obj[["sign"]][["DO"]][["disease"]]`.
+The result is stored in `obj[["sign"]][["DO"]][["disease"]]`.
 
 Save the objects.
 ```{r, eval = FALSE}
@@ -161,15 +162,17 @@ sc68_cisp_red <- readRDS(file = "backup/04_100_sc68_cisp_select_DO.rds")
 
 The following function `compute_SemSim_sign()` computes pairwise semantic
 similarities between biological descriptions.
-The arguments are `obj`, `data_type`, `measure` (argument of `doSim()` in `DOSE`
-package: one of `"Wang"`, `"Resnik"`, `"Rel"`, `"Jiang"`, and `"Lin"`),
-`orgdb = NULL`, `treeTable = NULL`, and `IC = IC_DO`.
+The arguments are `obj` (ASURAT object), `data_type`
+(the name of database used), `measure` (argument of `doSim()` in `DOSE` package:
+one of `"Wang"`, `"Resnik"`, `"Rel"`, `"Jiang"`, and `"Lin"`), `orgdb = NULL`,
+`treeTable = NULL`, and `IC = IC_DO`.
 Note that the results are stored into `obj[["sign"]][["DO_Sim"]]`, but the row
 and column names are in ascending order with respect to the values of
 information content (IC).
 
 **Tips:**
-The optimal choice of `measure` depends on the ontology structure.
+The similarity between biological terms are computed based on `measure`, and
+the optimal choice depends on the ontology structure.
 ```{r, eval = FALSE}
 day1_norm_red <- compute_SemSim_sign(obj = day1_norm_red, data_type = "DO",
                                      measure = "Jiang", orgdb = NULL,
@@ -184,7 +187,7 @@ sc68_cisp_red <- compute_SemSim_sign(obj = sc68_cisp_red, data_type = "DO",
                                      measure = "Jiang", orgdb = NULL,
                                      treeTable = NULL, IC = IC_DO)
 ```
-The computational result is stored in `obj[["sign"]][["DO"]][["disease"]]`.
+The result is stored in `obj[["sign"]][["DO"]][["disease"]]`.
 
 The following function `reduce_sign()` removes the biological terms based on the
 results of `compute_SemSim_sign()`.
@@ -214,8 +217,7 @@ sc68_vehi_red <- reduce_sign(obj = sc68_vehi_red, data_type = "DO",
 sc68_cisp_red <- reduce_sign(obj = sc68_cisp_red, data_type = "DO",
                              threshold = 0.85, keep_rareID = TRUE)
 ```
-The computational result is stored in
-`obj[["sign"]][["DO_Sim"]][["disease"]][["report"]]`.
+The result is stored in `obj[["sign"]][["DO_Sim"]][["disease"]][["report"]]`.
 
 The following function `manual_curation_sign()` removes biological terms by
 specifying the IDs or keywords.
@@ -225,8 +227,9 @@ separated by `|`).
 **Tips:**
 Users may take into account the following points:
 
-1. correlation coefficients
-2. information contents (ICs)
+1. correlation coefficients (small value means that the sign has low relevance)
+2. information contents (ICs) (small value means that the biological term
+is less specific)
 3. ratios of mitochondrial genes for SCG and VCG
 4. biological terms which are obviously unrelated to the research objective
 
@@ -244,19 +247,13 @@ keywords <- "foo|foofoo"
 sc68_cisp_red <- manual_curation_sign(obj = sc68_cisp_red, data_type = "DO",
                                       keywords = keywords)
 ```
-The computational result is stored in `obj[["sign"]][["DO"]][["disease"]]`.
+The result is stored in `obj[["sign"]][["DO"]][["disease"]]`.
 
 The following function `make_signxsample_matrix()` makes sign-by-sample
 matrices.
 The arguments are `obj`, `data_type`, `weight_strg` (weight parameter for SCG:
 the default value is 0.5) and `weight_vari` (weight parameter for VCG:
 the default value is 0.5).
-
-**Tips:**
-The bigger the weight constants are, the sharper the results may be.
-However, setting `weight_strg` and `weight_vari` as 1 or 0 is not recommended
-because there is a possibility that different signs have the same SCG, VCG, or
-WCG, which makes the matrix singular.
 ```{r, eval = FALSE}
 day1_norm_red <- make_signxsample_matrix(obj = day1_norm_red, data_type = "DO",
                                          weight_strg = 0.5, weight_vari = 0.5)
@@ -267,20 +264,13 @@ sc68_vehi_red <- make_signxsample_matrix(obj = sc68_vehi_red, data_type = "DO",
 sc68_cisp_red <- make_signxsample_matrix(obj = sc68_cisp_red, data_type = "DO",
                                          weight_strg = 0.5, weight_vari = 0.5)
 ```
-The computational result is stored in
-`obj[["sign"]][["DOxSample"]][["disease"]]`.
+The result is stored in `obj[["sign"]][["DOxSample"]][["disease"]]`.
 
-The following command `plot_Heatmap_SignxSamp()` shows a heat map by using
+The following command `plot_Heatmap_SignxSamp()` plots a heat map by using
 `Heatmap()` in `ComplexHeatmap` package applied to the sign-by-sample matrices.
 The arguments are `obj`, `data_type`, `category`, `algo_name = NULL`,
 `method` (agglomeration method to be used such as `complete`, `ward.D2`,
-`average`, etc.), `show_nReads` (if `TRUE`, the number of reads is shown),
-`title` (title of the figure), `name` (name of the color bar),
-`show_rownames_sign` (if `TRUE`, the name of sign is shown),
-`show_rownames_label` (if `TRUE`, the name of label is shown),
-`show_rownames_nReads` (if `TRUE`, the name of number of reads is shown), and
-`default_color` (if `TRUE`, each cluster is colored by default color of ggplot,
-otherwise by rainbow).
+`average`, etc.), and `show_nReads` (if `TRUE`, the number of reads is shown).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # day1_norm
@@ -355,7 +345,7 @@ saveRDS(sc68_cisp_red, file = "backup/04_101_sc68_cisp_matrix_DO.rds")
 
 
 
-## Dimension reduction
+## Dimensionality reduction
 Load the objects.
 ```{r, eval = FALSE}
 rm(list = ls())
@@ -379,15 +369,14 @@ sc68_vehi <- do_pca_sign(obj = sc68_vehi,
 sc68_cisp <- do_pca_sign(obj = sc68_cisp,
                          data_type = "DO", category = "disease")
 ```
-The computational result is stored in
-`obj[["reduction"]][["pca"]][["DO"]][["disease"]]`.
+The result is stored in `obj[["reduction"]][["pca"]][["DO"]][["disease"]]`.
 
 The following function `do_tsne_sign()` performs `Rtsne()` in `Rtsne` package
 based on the sign-by-sample matrices of the input `data_type` and `category`.
-The arguments are `obj`, `data_type`, `category`, `pca_dim` (dimension of
-principal component used for t-SNE, in which `NULL` is accepted if users would
-like to compute t-SNE from the original sample-by-sign matrices), and
-`tsne_dim` (t-SNE dimension: either `2` or `3`).
+The arguments are `obj` (ASURAT object), `data_type`, `category`,
+`pca_dim` (dimension of principal component used for t-SNE, in which `NULL` is
+accepted if users would like to compute t-SNE from the original sample-by-sign
+matrices), and `tsne_dim` (t-SNE dimension: either `2` or `3`).
 ```{r, eval = FALSE}
 day1_norm <- do_tsne_sign(obj = day1_norm, data_type = "DO",
                           category = "disease", pca_dim = NULL, tsne_dim = 2)
@@ -398,17 +387,13 @@ sc68_vehi <- do_tsne_sign(obj = sc68_vehi, data_type = "DO",
 sc68_cisp <- do_tsne_sign(obj = sc68_cisp, data_type = "DO",
                           category = "disease", pca_dim = NULL, tsne_dim = 2)
 ```
-The computational result is stored in
-`obj[["reduction"]][["tsne"]][["DO"]][["disease"]]`.
+The result is stored in `obj[["reduction"]][["tsne"]][["DO"]][["disease"]]`.
 
 The following function `plot_tsne_sign()` shows the data in a t-SNE space,
 in which the space dimension is automatically given by `tsne_dim` used in
 `do_tsne_sign()`.
 The arguments are `obj`, `data_type`, `category`, `algo_name = NULL`, `theta`
-(angle of view for 3D plots), `phi` (angle of view for 3D plots), `title`,
-`xlabel`, `ylabel`, `zlabel`, and `default_color` (if `TRUE`, the default color
-of ggplot is used, otherwise rainbow).
-Here, `theta`, `phi`, `zlabel` are set only for 3D plots.
+(angle of view for 3D plots), and `phi` (angle of view for 3D plots).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # day1_norm
@@ -476,17 +461,13 @@ sc68_vehi <- do_umap_sign(obj = sc68_vehi, data_type = "DO",
 sc68_cisp <- do_umap_sign(obj = sc68_cisp, data_type = "DO",
                           category = "disease", pca_dim = NULL, umap_dim = 2)
 ```
-The computational result is stored in
-`obj[["reduction"]][["umap"]][["DO"]][["disease"]]`.
+The result is stored in `obj[["reduction"]][["umap"]][["DO"]][["disease"]]`.
 
 The following function `plot_umap_sign()` shows the data in a UMAP space,
 in which the space dimension is automatically given by `umap_dim` used in
 `do_umap_sign()`.
 The arguments are `obj`, `data_type`, `category`, `algo_name = NULL`, `theta`
-(angle of view for 3D plots), `phi` (angle of view for 3D plots), `title`,
-`xlabel`, `ylabel`, `zlabel`, and `default_color` (if `TRUE`, the default color
-of ggplot is used, otherwise rainbow).
-Here, `theta`, `phi`, `zlabel` are set only for 3D plots.
+(angle of view for 3D plots), and `phi` (angle of view for 3D plots).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # day1_norm
@@ -538,7 +519,7 @@ ggsave(file = filename, plot = p, dpi = 300, width = 4.3, height = 4.5)
 <img src="figures/figure_03_0106.png" width="150px">
 <img src="figures/figure_04_0106.png" width="150px">
 
-The following function `do_DiffusionMap_sign()` performs `DiffusionMap()` in
+The following function `do_DiffusionMap_sign()` performs `DiffusionMap()` using
 `destiny` package, where the arguments are preset as `sigma = "local"` and
 `distance = "euclidean"`.
 The arguments are `obj`, `data_type`, `category`, `sigma`
@@ -546,6 +527,10 @@ The arguments are `obj`, `data_type`, `category`, `sigma`
 `pca_dim` (an integer: dimension of principal component used for UMAP, in which
 `NULL` is accepted if users would like to compute UMAP from the original
 sample-by-sign matrices).
+
+**Tips:**
+If the resulting diffusion map is distorted by outliers, tuning of `pca_dim`
+will be required.
 ```{r, eval = FALSE}
 day1_norm <- do_DiffusionMap_sign(obj = day1_norm, data_type = "DO",
                                   category = "disease", pca_dim = NULL)
@@ -556,16 +541,13 @@ sc68_vehi <- do_DiffusionMap_sign(obj = sc68_vehi, data_type = "DO",
 sc68_cisp <- do_DiffusionMap_sign(obj = sc68_cisp, data_type = "DO",
                                   category = "disease", pca_dim = NULL)
 ```
-The computational result is stored in
-`obj[["reduction"]][["dmap"]][["DO"]][["disease"]]`.
+The result is stored in `obj[["reduction"]][["dmap"]][["DO"]][["disease"]]`.
 
 The following function `plot_DiffusionMap_sign()` shows the data in a diffusion
 space.
 The arguments are `obj`, `data_type`, `category`, `algo_name = NULL`, `dims`
-(dimension vector for the plot), `theta` (angle of view), `phi` (angle of view),
-`title`, `title_size`, `xlabel`, `ylabel`, and `default_color` (if `TRUE`,
-the default color of ggplot is used, otherwise rainbow).
-Here, `theta`, `phi`, `zlabel` are set only for 3D plots.
+(dimension vector for the plot), `theta` (angle of view), and
+`phi` (angle of view).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # day7_hypo
@@ -623,10 +605,9 @@ sc68_cisp <- readRDS(file = "backup/04_102_sc68_cisp_reduction_DO.rds")
 
 
 
-## Sample clustering
+## Cell clustering
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 day1_norm <- readRDS(file = "backup/01_102_day1_norm_reduction_DO.rds")
@@ -635,9 +616,6 @@ sc68_vehi <- readRDS(file = "backup/03_102_sc68_vehi_reduction_DO.rds")
 sc68_cisp <- readRDS(file = "backup/04_102_sc68_cisp_reduction_DO.rds")
 ```
 
-If the clusters of samples are well separated in the low dimensional space,
-they have a chance to be clustered in the original space spanned by the row
-vectors of sign-by-sample matrices.
 Here users can choose one of the following unsupervised clustering methods.
 
 **Tips:**
@@ -645,8 +623,8 @@ A medoid-and-flat type of unsupervised clustering such as k-medoids method is
 the most intuitive way, but their classification results do not always match to
 the clusters in the low dimensional space.
 On the other hand, though Louvain algorithm with k-nearest neighbor graph
-(see below) is a more flexible way, it should be better to try first using more
-simple and translatable method.
+(see below) is a more flexible way, it might be better to try first using more
+simple, intuitive, and translatable method.
 
 **1. Partitioning around medoids (PAM)**
 
@@ -666,7 +644,7 @@ The arguments are `obj`, `data_type`, `category`, and `k` (argument of `pam()`).
 # plot(mat, pch=21, bg=col[lab])
 # legend("bottomright", legend=unique(sort(lab)), pch=21, pt.bg=col)
 ```
-If the above is conducted, the computational results are stored in
+If the above is conducted, the results are stored in
 `obj[["classification"]][["pam"]][["DO"]][["disease"]]` and
 `obj[["sample"]][["pam_DO_disease"]]`.
 
@@ -690,7 +668,7 @@ The arguments are `obj`, `data_type`, `category`, `method`
 # plot(mat, pch=21, bg=col[lab])
 # legend("bottomright", legend=unique(sort(lab)), pch=21, pt.bg=col)
 ```
-If the above is conducted, the computational results are stored in
+The results are stored in
 `obj[["classification"]][["hclustCutree"]][["DO"]][["disease"]]` and
 `obj[["sample"]][["hclustCutree_DO_disease"]]`.
 
@@ -722,7 +700,7 @@ sc68_vehi <- classify_samples_seuratFindClusters_sign(
 # plot(mat, pch=21, bg=col[lab])
 # legend("bottomright", legend=unique(sort(lab)), pch=21, pt.bg=col)
 ```
-If the above is conducted, the computational results are stored in
+The results are stored in
 `obj[["sample"]][["seuratFindClusters_DO_disease"]]` and
 `obj[["classification"]][["seuratFindClusters"]][["DO"]][["disease"]]`.
 
@@ -735,10 +713,6 @@ The arguments are `obj`, `data_type`, `category`, `dims` (dimensions of the
 diffusion map: only two or three dimensional vector is accepted), `NEndpoints`
 (number of end points of the scaffold tree), and `random_seed` (random seed to
 be passed on to Python to ensure reproducibility).
-
-**Tips:**
-Since diffusion maps are strongly affected by outliers, the eigenvectors for
-the dimension reduction should be properly chosen.
 ```{r, eval = FALSE}
 day7_hypo <- do_CalculateScaffoldTree_dmap(
   obj = day7_hypo, data_type = "DO", category = "disease",
@@ -748,10 +722,10 @@ sc68_cisp <- do_CalculateScaffoldTree_dmap(
   obj = sc68_cisp, data_type = "DO", category = "disease",
   dims = 1:3, NEndpoints = 3, random_seed = 8)
 ```
-The computational result is stored in
+The result is stored in
 `obj[["classification"]][["merlot"]][["DO"]][["disease"]][["ScaffoldTree"]]`.
 
-The following function `do_CalculateElasticTree_dmap()` computes a elastic
+The following function `do_CalculateElasticTree_dmap()` computes an elastic
 principal tree by using `CalculateElasticTree()` in `merlot` package,
 which is based on the result of two-dimensional diffusion map.
 The arguments are `obj`, `data_type`, `category`, and `N_yk`
@@ -763,7 +737,7 @@ day7_hypo <- do_CalculateElasticTree_dmap(
 sc68_cisp <- do_CalculateElasticTree_dmap(
   obj = sc68_cisp, data_type = "DO", category = "disease", N_yk = 30)
 ```
-The computational result is stored in
+The result is stored in
 `obj[["classification"]][["merlot"]][["DO"]][["disease"]][["ElasticTree"]]`.
 
 The following function `plot_ElasticTree_dmap()` visualizes the result of
@@ -810,7 +784,7 @@ day7_hypo <- do_SignSpaceEmbedding_dmap(
 sc68_cisp <- do_SignSpaceEmbedding_dmap(
   obj = sc68_cisp, data_type = "DO", category = "disease")
 ```
-The computational result is stored in
+The result is stored in
 `obj[["classification"]][["merlot"]][["DO"]][["disease"]][["EmbeddedTree"]]`.
 
 The following function `do_CalculatePseudotimes_dmap()` computes a pseudotime
@@ -824,7 +798,7 @@ day7_hypo <- do_CalculatePseudotimes_dmap(
 sc68_cisp <- do_CalculatePseudotimes_dmap(
   obj = sc68_cisp, data_type = "DO", category = "disease", T0 = 1)
 ```
-The computational result is stored in
+The result is stored in
 `obj[["classification"]][["merlot"]][["DO"]][["disease"]][["Pseudotimes"]]`.
 
 The following function `plot_Pseudotime_dmap()` shows the result of
@@ -867,7 +841,7 @@ day7_hypo <- classify_samples_merlot_sign(
 sc68_cisp <- classify_samples_merlot_sign(
   obj = sc68_cisp, data_type = "DO", category = "disease")
 ```
-The computational result is stored in `obj[["sample"]][["merlot_DO_disease"]]`.
+The result is stored in `obj[["sample"]][["merlot_DO_disease"]]`.
 
 Save the objects.
 ```{r, eval = FALSE}
@@ -887,7 +861,7 @@ sc68_cisp <- readRDS(file = "backup/04_103_sc68_cisp_classification_DO.rds")
 
 
 
-## Visualizing
+## Visualization
 In this subsection, the clustering results are visualized.
 
 The following function `plot_Heatmap_SignxSamp()` visualizes the result of
@@ -1011,7 +985,8 @@ dev.off()
 <img src="figures/figure_03_0131.png" width="250px">
 <img src="figures/figure_04_0131.png" width="250px">
 
-The following command shows the population sizes by bar graph.
+The following command shows the number of cells per cluster visualized
+using bar graph.
 ```{r, eval = FALSE}
 # ----------------------------------------
 # For `day1_norm`
@@ -1068,10 +1043,11 @@ ggsave(file = filename, plot = p, dpi = 300, width = 4.3, height = 4)
 ## Significant signs
 In this subsection, signs of which the sign scores are specifically upregulated
 in some cluster are detected by computing the separation indices.
+The concept of significant sign is similar to that of differentially expressed
+genes (DEGs).
 
 Load the objects.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 day1_norm <- readRDS(file = "backup/01_103_day1_norm_classification_DO.rds")
@@ -1080,11 +1056,9 @@ sc68_vehi <- readRDS(file = "backup/03_103_sc68_vehi_classification_DO.rds")
 sc68_cisp <- readRDS(file = "backup/04_103_sc68_cisp_classification_DO.rds")
 ```
 
-The following function `auto_find_marker_sign()` executes another original
-function `find_marker_sign()` in a loop manner.
-Here `find_marker_sign()` computes separation indices (i.e., non-parametric
-measure of degree in separation of two random variable sets) of signs of
-interest for each subpopulation.
+The following function `auto_find_marker_sign()` computes separation indices
+(i.e., non-parametric measure of degree in separation of two random variable
+sets) of signs of interest for each subpopulation.
 The arguments are `obj`, `data_type_for_label` (`data_type` used for sample
 classification), `category_for_label` (`category` used for sample
 classification), `algo_name_for_label` (`algo_name` used for sample
@@ -1116,7 +1090,7 @@ sc68_cisp <- auto_find_marker_sign(obj = sc68_cisp, data_type_for_label = "DO",
                                    data_type_for_expr = "DO",
                                    category_for_expr = "disease")
 ```
-The computational results are stored in
+The results are stored in
 `obj[["marker"]][["DO"]][["disease"]][["Label_DO_disease_1_vs_2/3"]]`,
 `obj[["marker"]][["DO"]][["disease"]][["Label_DO_disease_2_vs_1/3"]]`,
 `obj[["marker"]][["DO"]][["disease"]][["Label_DO_disease_3_vs_1/2"]]`, and
@@ -1144,9 +1118,8 @@ The arguments are `obj`, `sign_name`, `data_type_for_label` (`data_type` used
 for sample classification), `category_for_label` (`category` used for sample
 classification), `algo_name_for_label` (`algo_name` used for sample
 classification), `data_type_for_expr` (`data_type` of interest for investigating
-gene expression), `category_for_expr` (`category` of interest for investigating
-gene expression), `title`, `title_size`, and `default_color` (if `TRUE`,
-the default color of ggplot is used, otherwise rainbow).
+gene expression), and `category_for_expr` (`category` of interest for
+investigating gene expression).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # For `day1_norm`
@@ -1272,7 +1245,7 @@ ggsave(file = filename, plot = p, dpi = 300, width = 4, height = 4)
 <img src="figures/figure_04_0141.png" width="230px">
 <img src="figures/figure_04_0142.png" width="230px">
 
-The function `plot_tsne_signScore()`, `plot_umap_signScore()`, and
+The functions `plot_tsne_signScore()`, `plot_umap_signScore()`, and
 `plot_dmap_signScore()` show the sign score of a given sign on the t-SNE,
 UMAP, and diffusion map spaces, respectively.
 ```{r, eval = FALSE}
@@ -1449,9 +1422,10 @@ dev.off()
 <img src="figures/figure_04_0151.png" width="250px">
 <img src="figures/figure_04_0152.png" width="250px">
 
-The function `plot_tsne_geneExpression()`, `plot_umap_geneExpression()`, and
-`plot_dmap_geneExpression()` show the normalized gene expression levels for
-the input gene on the low-dimensional space.
+The functions `plot_tsne_geneExpression()`, `plot_umap_geneExpression()`, and
+`plot_dmap_geneExpression()` show the mean of normalized gene expression levels
+(if `zscore = TRUE`, the expression levels are converted into z-score) for
+the input genes (`gene_names`) on the low-dimensional space.
 ```{r, eval = FALSE}
 # ----------------------------------------
 # For `day1_norm`
@@ -1661,12 +1635,4 @@ saveRDS(day1_norm, file = "backup/01_104_day1_norm_DES_DO.rds")
 saveRDS(day7_hypo, file = "backup/02_104_day7_hypo_DES_DO.rds")
 saveRDS(sc68_vehi, file = "backup/03_104_sc68_vehi_DES_DO.rds")
 saveRDS(sc68_cisp, file = "backup/04_104_sc68_cisp_DES_DO.rds")
-```
-
-Load the objects.
-```{r, eval = FALSE}
-day1_norm <- readRDS(file = "backup/01_104_day1_norm_DES_DO.rds")
-day7_hypo <- readRDS(file = "backup/02_104_day7_hypo_DES_DO.rds")
-sc68_vehi <- readRDS(file = "backup/03_104_sc68_vehi_DES_DO.rds")
-sc68_cisp <- readRDS(file = "backup/04_104_sc68_cisp_DES_DO.rds")
 ```

@@ -1,10 +1,10 @@
 # Checking expression profiles of marker genes {#markergenes}
-It is important to first investigate the gene expression profiles of marker
-genes.
+To confirm that important marker genes are detected in the datasets,
+we recommend users to investigate the gene expression profiles of
+expected marker genes before running ASURAT.
 
-Load the data.
+Load the normalized data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_general.R")
 source("R/plot.R")
 day1_norm <- readRDS(file = "backup/01_005_day1_norm_normalized.rds")
@@ -15,28 +15,13 @@ pbmc_4000 <- readRDS(file = "backup/05_005_pbmc_4000_normalized.rds")
 pbmc_6000 <- readRDS(file = "backup/06_005_pbmc_6000_normalized.rds")
 ```
 
-Check the size of the gene-by-sample matrices.
-```{r, eval = FALSE}
-rbind(dim(day1_norm[["data"]][["raw"]]), dim(day7_hypo[["data"]][["raw"]]),
-      dim(sc68_vehi[["data"]][["raw"]]), dim(sc68_cisp[["data"]][["raw"]]),
-      dim(pbmc_4000[["data"]][["raw"]]), dim(pbmc_6000[["data"]][["raw"]]))
-```
-
-```
-[1,] 5272 3663
-[2,] 6213 1947
-[3,] 6581 3923
-[4,] 6347 2285
-[5,] 6658 3815
-[6,] 5169 4878
-```
-
 The following function `plot_Heatmap_GenexSamp()` shows the gene-by-sample
-matrix for a given gene set as a heatmap, using the results of `log1p_data`.
-The arguments are `obj`, `genes` (genes of interest),
-`method` (agglomeration method to be used such as `complete`, `ward.D2`,
-`average`, etc.), `show_nReads` (if `TRUE`, the number of reads is shown),
-`title` (title of the figure), and `name` (name of the color bar).
+matrix for a given gene set as a heatmap, using the results of 
+`obj[["data"]][["log1p"]]`.
+The arguments are `obj` (ASURAT object), `genes` (genes of interest, e.g.,
+marker genes), `method` (agglomeration method to be used such as `complete`,
+`ward.D2`, `average`, etc.), and `show_nReads` (if `TRUE`, the number of reads
+is shown).
 ```{r, eval = FALSE}
 # ----------------------------------------
 # For `day1_norm`

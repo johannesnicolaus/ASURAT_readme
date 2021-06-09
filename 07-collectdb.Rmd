@@ -14,20 +14,17 @@ users may be able to skip this section.
 
 
 ## Disease Ontology DB
-Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_DiseaseOntology.R")
 ```
 
 The following functions `collect_DO()`, `format_DO()`, and `compute_IC_DO()`
-(i) collects a database for Disease Ontology,
+(i) downloads a database for Disease Ontology,
 (ii) formats the results, and
-(iii) prepares a list of information content (IC), respectively.
-The definition of IC is reintroduced in Mistry and Pavlidis,
-BMC Bioinformatics, 2008, but note that the values depend on the data set.
-In fact, the ICs in `IC_DO` may not equal to those computed in `doSim()`
-in `DOSE` package.
+(iii) prepares a list of information content (IC) (Mistry and Pavlidis,
+BMC Bioinformatics, 2008), respectively.
+IC value represents the depth of the biological term in the ontology,
+which will be later used for computing similarities between terms.
 ```{r, eval = FALSE}
 #
 # Note again that the following result has already been prepared for human and
@@ -48,27 +45,27 @@ saveRDS(IC_DO, file = "data/2020_001_databases/YYYYMMDD_IC_DO_human.rds")
 
 
 ## Cell Ontology DB
-Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_CellOntology.R")
 ```
 
 The following functions `collect_CO()`, `format_CO()`, `make_treeTable_CO()`,
 and `compute_IC_CO()`
-(i) collects a database for Cell Ontology,
-(ii) formats the results,
-(iii) prepares a corresponding table between child and parent CO IDs, and
-(iv) prepares a list of information content (IC), respectively.
+(i) downloads a database for Disease Ontology,
+(ii) formats the results, and
+(iii) prepares a list of information content (IC) (Mistry and Pavlidis,
+BMC Bioinformatics, 2008), respectively.
 
 **Tips:**
-Currently, in December 2020, the following Cell Ontology DB seems to be immature
-because, for example, the well-known marker genes for pancreatic beta cell,
+As of December 2020, Cell Ontology database might not be complete enough
+for some biological contexts.
+For example, the well-known marker genes for pancreatic beta cell,
 Ins1 and Ins2, are not registered in the gene slot of `type B pancreatic cell`
 with CO ID `CL:0000169`.
-In addition, the IC seems to be meaningless.
-Nevertheless, we computed the IC for future direction.
-
+Be careful of using IC values of CO, which may not be always useful for
+computing similarities between biological terms.
+Nevertheless, we computed the IC values as in the future CO database might be
+better annotated.
 ```{r, eval = FALSE}
 #
 # Note again that the following result has already been prepared for human and
@@ -91,23 +88,17 @@ saveRDS(IC_CO, file = "data/2020_001_databases//YYYYMMDD_IC_CO_human.rds")
 
 
 ## Gene Ontology DB
-Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_GeneOntology.R")
 ```
 
 The following functions `collect_GO()`, `format_GO()`, and `compute_IC_GO()`
-(i) collects a database for Gene Ontology,
+(i) downloads a database for Gene Ontology,
 (ii) formats the results, and
 (iii) prepares a list of information content (IC), respectively.
 The arguments of `collect_GO()` are `orgdb`
 (annotation data package such as `org.Hs.eg.db` and `org.Mm.eg.db`) and
-`all_geneIDs` (all Entrez IDs of a specific organism).
-The definition of IC is reintroduced in Mistry and Pavlidis,
-BMC Bioinformatics, 2008, but note that the values depend on the data set.
-In fact, the ICs in `IC_GO` may not equal to those computed in `mgoSim()` in
-`GOSemSim` package.
+`all_geneIDs` (all Entrez gene IDs of a specific organism).
 ```{r, eval = FALSE}
 #
 # Note again that the following result has already been prepared for human and
@@ -130,14 +121,12 @@ saveRDS(IC_DO, file = "data/2020_001_databases/YYYYMMDD_IC_GO_human.rds")
 
 
 ## KEGG
-Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_KEGG.R")
 ```
 
 The following functions `collect_KEGG()` and `format_KEGG()`
-(i) collects a database for KEGG and (ii) formats the results, respectively.
+(i) downloads a database for KEGG and (ii) formats the results, respectively.
 In the current version, KEGG PATHWAY (`"pathway"`) and MODULE (`"module"`)
 can be input into `collect_KEGG()` (cf. `KEGGREST` function `listDatabases()`).
 The arguments of `collect_KEGG()` are `organism` (such as Homo sapiens `"hsa"`,
@@ -169,14 +158,12 @@ saveRDS(tidy_KEGG,
 
 
 ## Reactome
-Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_Reactome.R")
 ```
 
 The following functions `collect_Reactome()` and `format_Reactome()`
-(i) collects a database for Reactome and
+(i) downloads a database for Reactome and
 (ii) formats the results, respectively.
 In the current version, Reactome pathway (`"PATHID"`) can be input into
 `collect_Reactome()` (cf. `reactome.db` functions `ls("package:reactome.db")`

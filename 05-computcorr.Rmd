@@ -1,10 +1,9 @@
 # Computing correlations among genes {#computcorr}
 In this section, correlation matrices among genes are computed from the
-normalized read count matrices, which will be used later for creating signs.
+normalized read count matrices, which will be used for downstream analyses.
 
 Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 day1_norm <- readRDS(file = "backup/01_005_day1_norm_normalized.rds")
 day7_hypo <- readRDS(file = "backup/02_005_day7_hypo_normalized.rds")
 sc68_vehi <- readRDS(file = "backup/03_005_sc68_vehi_normalized.rds")
@@ -14,10 +13,10 @@ pbmc_6000 <- readRDS(file = "backup/06_005_pbmc_6000_normalized.rds")
 ```
 
 The following function `do_cor_variables()` computes a correlation matrix from
-the input data.
-Users can choose a measure of correlation coefficient by setting `method`
-(vector form is also accepted but not recommended due to the file size)
-such as `pearson`, `spearman`, and `kendall`.
+the input data (ASURAT object).
+Users can choose a measure of correlation coefficient by setting `method`.
+Multiple methods are also accepted, e.g., `method = "spearman"`,
+and `method = c("pearson", "spearman", "kendall")`.
 ```{r, eval = FALSE}
 do_cor_variables <- function(obj, method){
   res <- list()

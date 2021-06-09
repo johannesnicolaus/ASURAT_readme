@@ -1,9 +1,10 @@
 # Multiple sign analysis by concatenating DO, CO, GO, KEGG, and Reactome
 In this section, we concatenate all the SSMs by using ASURAT's functions.
+Using this multiple sign analysis, users can simultaneously visualize cell
+states from various viewpoints such as cell type, biological process, signaling pathway, and chemical reaction.
 
 Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/plot.R")
 source("R/function_sign.R")
 day1_norm_DO <- readRDS(file = "backup/01_104_day1_norm_DES_DO.rds")
@@ -80,10 +81,11 @@ rm(day1_norm_Reactome, day7_hypo_Reactome,
 
 The following function `plot_multiHeatmaps_SignxSamp()` vertically concatenates
 two or more heat maps.
-The arguments are `obj`, `data_types` (vector of data types, where the first
-element is used for the sample clustering), `categories` (vector of categories,
-where the first element is used for the sample clustering), `algo_names`
-(vector of the name of algorithm used for the sample classification: in the
+The arguments are `obj` (ASURAT object), `data_types` (vector of data types,
+where the first element is used for the sample clustering),
+`categories` (vector of categories, where the first element is used for the
+cell clustering), `algo_names`
+(vector of the name of algorithm used for the cell clustering: in the
 current version, one of `NULL` (not `"NULL"` but `NULL`), `"pam"`,
 `"hclustCutree"`, `"seuratFindClusters"`, and `"merlot"`), `show_classes`
 (vector of `TRUE` or `FALSE`: if `TRUE`, the classification is shown), `split`
@@ -97,7 +99,7 @@ sign is shown), `show_rownames_label` (if `TRUE`, the name of label is shown),
 if `TRUE`, the default color of ggplot is used, otherwise rainbow).
 
 **Tips:**
-If you forget the methods for the clustering, see `obj[["sample"]]`.
+To check the methods used for clustering, see `obj[["sample"]]`.
 ```{r, eval = FALSE}
 # ----------------------------------------
 # For `day1_norm`

@@ -1,12 +1,13 @@
 # Normalizing and centering data {#normalization}
-As a normalization method of the scRNA-seq data obtained by UMI protocols,
-we utilize `bayNorm` (Tang et al., Bioinformatics, 2020) and log transformation
-with a pseudo count.
-Centralized data will be used later when creating signs.
+We utilize `bayNorm` (Tang et al., Bioinformatics, 2020) and log transformation
+after the addition of pseudo counts to normalize UMI-based scRNA-seq data.
+Additionally, we transform the log-normalized read counts by subtracting with
+the mean expression across cells.
+The resulting normalized and centered data will be used for downstream
+analyses.
 
 Load the data.
 ```{r, eval = FALSE}
-rm(list = ls())
 source("R/function_general.R")
 day1_norm <- readRDS(file = "backup/01_004_day1_norm_trim_variables.rds")
 day7_hypo <- readRDS(file = "backup/02_004_day7_hypo_trim_variables.rds")
@@ -32,30 +33,28 @@ rbind(dim(day1_norm[["data"]][["raw"]]), dim(day7_hypo[["data"]][["raw"]]),
 [6,] 5169 4878
 ```
 
-Estimate a capture efficiency `BETA` for each gene by setting a global mean
-capture efficiency `MeanBETA` as 0.06 (default value is 0.06), and perform
-`bayNorm()` to infer the true copy numbers of transcripts by means of MAP
-estimation.
+Perform `bayNorm()` to infer the true copy numbers of transcripts.
+Below is the default setting of `bayNorm()`.
 ```{r, eval = FALSE}
-doBayNorm <- function(obj, MeanBETA){
+doBayNorm <- function(obj){
   obj[["history"]][["doBayNorm"]][["MeanBETA"]] <- MeanBETA
   mat <- as.matrix(obj[["data"]][["raw"]])
-  BETA <- BetaFun(Data = mat, MeanBETA = MeanBETA)
+  BETA <- BetaFun(Data = mat, MeanBETA = 0.06)  # 0.06 is the default value
   bay_out <- bayNorm(mat, BETA_vec = BETA[["BETA"]], mode_version = TRUE)
   obj[["data"]][["bayNorm"]] <- bay_out
   return(obj)
 }
 
-day1_norm <- doBayNorm(obj = day1_norm, MeanBETA = 0.06)
-day7_hypo <- doBayNorm(obj = day7_hypo, MeanBETA = 0.06)
-sc68_vehi <- doBayNorm(obj = sc68_vehi, MeanBETA = 0.06)
-sc68_cisp <- doBayNorm(obj = sc68_cisp, MeanBETA = 0.06)
-pbmc_4000 <- doBayNorm(obj = pbmc_4000, MeanBETA = 0.06)
-pbmc_6000 <- doBayNorm(obj = pbmc_6000, MeanBETA = 0.06)
+day1_norm <- doBayNorm(obj = day1_norm)
+day7_hypo <- doBayNorm(obj = day7_hypo)
+sc68_vehi <- doBayNorm(obj = sc68_vehi)
+sc68_cisp <- doBayNorm(obj = sc68_cisp)
+pbmc_4000 <- doBayNorm(obj = pbmc_4000)
+pbmc_6000 <- doBayNorm(obj = pbmc_6000)
 ```
 
-The following function `log1p_data()` performs log transform of the input data
-with a pseudo count `eps`.
+The following function `log1p_data()` performs log (natural logarithm)
+transform of the input data with a pseudo count `eps`.
 ```{r, eval = FALSE}
 log1p_data <- function(obj, eps){
   obj[["history"]][["log1p_data"]][["eps"]] <- eps
@@ -99,14 +98,4 @@ saveRDS(sc68_vehi, file = "backup/03_005_sc68_vehi_normalized.rds")
 saveRDS(sc68_cisp, file = "backup/04_005_sc68_cisp_normalized.rds")
 saveRDS(pbmc_4000, file = "backup/05_005_pbmc_4000_normalized.rds")
 saveRDS(pbmc_6000, file = "backup/06_005_pbmc_6000_normalized.rds")
-```
-
-Load the objects.
-```{r, eval = FALSE}
-day1_norm <- readRDS(file = "backup/01_005_day1_norm_normalized.rds")
-day7_hypo <- readRDS(file = "backup/02_005_day7_hypo_normalized.rds")
-sc68_vehi <- readRDS(file = "backup/03_005_sc68_vehi_normalized.rds")
-sc68_cisp <- readRDS(file = "backup/04_005_sc68_cisp_normalized.rds")
-pbmc_4000 <- readRDS(file = "backup/05_005_pbmc_4000_normalized.rds")
-pbmc_4000 <- readRDS(file = "backup/06_005_pbmc_6000_normalized.rds")
 ```
