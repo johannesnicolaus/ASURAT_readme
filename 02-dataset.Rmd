@@ -57,13 +57,11 @@ from which the following SRA files were downloaded:
 * SRR10211593 (for MDA-SC68 with cisplatin treatment; sample accessions numbers
   GSM4104164).
 
-The raw count matrices were dumped by 10x cellranger with a reference
-genome GRCh38-3.0.0.
-The following function `read_10xdata` processes the dumped files into a raw
-count matrix.
-In this function, `make.unique()` in `base` package is applied for naming gene
-symbols, which appends a sequential number with a period delimiter for every
-repeat name encountered.
+In this section, we will be using 10x single-cell gene expression data. The following
+function `read_10xdata` processes the Cell Ranger output files under the directory 
+`outs/filtered_feature_bc_matrix` into a raw count matrix. In this function, `make.unique()`
+in `base` package is applied for naming gene symbols, which appends a sequential 
+number with a period delimiter for every repeat name encountered.
 ```{r, eval = FALSE}
 read_10xdata <- function(path_dir){
   barcode.path <- paste0(path_dir, "barcodes.tsv.gz")
